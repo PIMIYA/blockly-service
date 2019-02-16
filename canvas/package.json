@@ -1,0 +1,18 @@
+{
+  "name": "canvas-drawer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "canvas": "^2.3.1",
+    "express": "^4.16.4",
+    "rpi-ws281x-native": "^0.9.0",
+    "underscore": "^1.9.1"
+  }
+}

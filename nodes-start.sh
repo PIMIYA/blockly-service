@@ -1,0 +1,1 @@
+pm2 start nodes.config.js --no-autorestart
