@@ -1,17 +1,13 @@
 const ws281x = require('rpi-ws281x-native');
-const {
-    createCanvas,
-    loadImage
-} = require('canvas');
+const Jimp = require('jimp');
 
-const canvas = createCanvas(8, 8);
-const ctx = canvas.getContext('2d');
-const canvasExtension = require('./extensions/canvas-extension');
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const repeat = (ms, func) => new Promise(r => (setInterval(func, ms), wait(ms).then(r)));
 
-canvas.toUint32Array = canvasExtension.toUint32Array.bind(null, canvas);
-ws281x.init(64);
+const utils = require('./utils');
+
+const SIZE = 64;
+ws281x.init(SIZE);
 
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
@@ -23,24 +19,35 @@ process.on('SIGINT', function () {
 
 
 let loadImages = [];
-for (let i = 0; i < 8; i++) {
-    let filePath = `./images/block-${i}.jpg`;
-    loadImages.push(loadImage(filePath));
+for (let i = 0; i < 6; i++) {
+    let filePath = `./images/full-${i}.jpg`;
+    loadImages.push(Jimp.read(filePath));
 }
 let artImages = [];
 Promise.all(loadImages).then((values) => {
-    console.log(values.length);
+    // console.log(values.length);
     values.forEach(image => {
-        ctx.drawImage(image, 0, 0, 8, 8);
-        artImages.push(canvas.toUint32Array().slice());
+        let tmp = [];
+        image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
+            var r = this.bitmap.data[idx + 0];
+            var g = this.bitmap.data[idx + 1];
+            var b = this.bitmap.data[idx + 2];
+            // console.log(`${x}, ${y}: ${r} ${g} ${b}`);
+            tmp.push(utils.rgb2Hex(r, g, b));
+        });
+
+        artImages.push(tmp.slice());
     });
 }).then(() => {
     let imageCount = artImages.length;
     let imageIndex = 0;
+
     repeat(100, () => {
         let image = artImages[imageIndex];
-        ws281x.render(image);
+        let renderData = utils.hexToUint32Array(image);
+        ws281x.render(renderData.slice(0, SIZE));
         imageIndex = ++imageIndex % imageCount;
     });
+
     console.log('Press <ctrl>+C to exit.');
 });

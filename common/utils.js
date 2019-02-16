@@ -23,7 +23,13 @@ class Utils {
         return hex.length == 1 ? "0" + hex : hex;
     }
 
-    rgb2Int(r, g, b) {
+    /**
+     *
+     * @param {number} r
+     * @param {number} g
+     * @param {number} b
+     */
+    rgb2Number(r, g, b) {
         return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
     }
 
@@ -67,6 +73,78 @@ class Utils {
         let index = this.orderedColors.indexOf(currentColor);
         index = ++index % this.orderedColors.length;
         return this.orderedColors[index];
+    }
+
+    /**
+     *
+     * @param {string} colorHex
+     * @returns {number}
+     */
+    hexToNumber(colorHex) {
+        colorHex = `0x${colorHex.substr(1)}`;
+        let components = {
+            r: (colorHex & 0xff0000),
+            g: (colorHex & 0x00ff00),
+            b: (colorHex & 0x0000ff)
+        };
+        return components.r + components.g + components.b;
+    }
+
+    /**
+     *
+     * @param {Array<string>} data
+     * @returns {Uint32Array}
+     */
+    hexToUint32Array(data) {
+        let result = new Uint32Array(data.length);
+        data.forEach((element, index) => {
+            result[index] = this.hexToNumber(element);
+        });
+
+        return result;
+    }
+
+    /**
+     *
+     * @param {object} image
+     * @returns {Uint32Array}
+     */
+    jimpImageToUint32Array(image) {
+        let u = this;
+        let length = image.bitmap.width * image.bitmap.height;
+        let result = new Uint32Array(length);
+        let index = 0;
+        image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
+            let r = this.bitmap.data[idx];
+            let g = this.bitmap.data[idx + 1];
+            let b = this.bitmap.data[idx + 2];
+            // let a = this.bitmap.data[idx + 3];
+            // console.log(`${x}, ${y}: ${r} ${g} ${b}`);
+            result[index++] = u.rgb2Number(r, g, b);
+        });
+
+        return result;
+    }
+
+    /**
+     *
+     * @param {object} image
+     * @returns {Array<Array<string>>}
+     */
+    jimpImageToLedStatus(image) {
+        let u = this;
+        let result = [];
+        let index = 0;
+        image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
+            let r = this.bitmap.data[idx];
+            let g = this.bitmap.data[idx + 1];
+            let b = this.bitmap.data[idx + 2];
+            // let a = this.bitmap.data[idx + 3];
+            // console.log(`${x}, ${y}: ${r} ${g} ${b}`);
+            result.push(u.rgb2Hex(r, g, b));
+        });
+
+        return _.chunk(result, constValue.TotalLedWidth);
     }
 
     /************************************************************************+*/

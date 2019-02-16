@@ -1,10 +1,15 @@
 const axios = require('axios');
 
 class HttpRequest {
-    constructor() {}
+    constructor(timeout) {
+        this.timeout = timeout || 1000;
+    }
 
-    Get(url, params, callback) {
-        axios.get(url, params)
+    Get(url, callback) {
+        let config = {};
+        config.timeout = this.timeout;
+
+        axios.get(url, config)
             .then(function (response) {
                 if (callback) callback(null, response);
             })
@@ -14,7 +19,23 @@ class HttpRequest {
     }
 
     Post(url, params, callback) {
-        axios.post(url, params)
+        let config = {};
+        config.timeout = this.timeout;
+
+        axios.post(url, params, config)
+            .then(function (response) {
+                if (callback) callback(null, response);
+            })
+            .catch(function (error) {
+                if (callback) callback(error);
+            });
+    }
+
+    Delete(url, callback) {
+        let config = {};
+        config.timeout = this.timeout;
+
+        axios.delete(url, params)
             .then(function (response) {
                 if (callback) callback(null, response);
             })

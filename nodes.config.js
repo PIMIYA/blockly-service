@@ -9,7 +9,7 @@ for (let i = 0; i < constValue.NodeCount; i++) {
         env: {
             'Index': i,
             'PORT': 3100 + i,
-            'ServerHost': 'http://localhost:3000',
+            'ServerHost': 'http://192.168.1.22:3000',
         }
     })
 }

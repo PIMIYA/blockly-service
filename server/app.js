@@ -37,6 +37,25 @@ app.use(express.static('public'));
 
 // ========== API
 
+app.get('/mode', function (req, res) {
+    res.json({
+        mode: ledManager.getMode()
+    });
+});
+
+app.post('/mode', function (req, res) {
+    let mode = req.body.mode;
+    if (mode == null || mode == undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    ledManager.setMode(mode);
+    runner.changeMode(mode);
+
+    res.end();
+});
+
 app.post('/reload', function (req, res) {
     runner.stop();
     decache('./runner.js');
@@ -54,7 +73,7 @@ app.route('/led')
         let x = req.body.x;
         let y = req.body.y;
         let color = req.body.color;
-        // console.log(x, y, color);
+        console.log(x, y, color);
 
         ledManager.setLed(x, y, color);
         res.end();
@@ -75,13 +94,6 @@ app.route('/button')
         res.end();
     });
 
-app.get('/led/:nodeIndex/:boardIndex', function (req, res) {
-    const nodeIndex = parseInt(req.params.nodeIndex, null);
-    const boardIndex = parseInt(req.params.boardIndex, null);
-    console.log(nodeIndex, boardIndex);
-    res.json(ledManager.getRawLedStatusByNodeIndex(nodeIndex, boardIndex));
-});
-
 app.post('/broadcast/led', function (req, res) {
     // let ledStatus = utils.iterateLed(constValue.TotalLedWidth, constValue.TotalLedHeight);
     let data = req.body.led;
@@ -93,7 +105,7 @@ app.post('/broadcast/led', function (req, res) {
 
     config.Nodes.forEach(node => {
         try {
-            let url = `${node.Url}/led`;
+            let url = `${node.Host}/led`;
             request.Post(url, {
                 payload: data
             }, (error, response) => {
@@ -116,7 +128,7 @@ app.post('/broadcast/button', function (req, res) {
 
     config.Nodes.forEach(node => {
         try {
-            let url = `${node.Url}/button`;
+            let url = `${node.Host}/button`;
             request.Post(url, {
                 payload: data
             }, (error, response) => {
@@ -134,6 +146,14 @@ app.post('/broadcast/button', function (req, res) {
     res.end();
 });
 
+// FOR TEST #####
+app.get('/led/:nodeIndex/:boardIndex', function (req, res) {
+    const nodeIndex = parseInt(req.params.nodeIndex, null);
+    const boardIndex = parseInt(req.params.boardIndex, null);
+    console.log(nodeIndex, boardIndex);
+    res.json(ledManager.getRawLedStatusByNodeIndex(nodeIndex, boardIndex));
+});
+
 // API ==========
 
 let server = http.createServer(app)
@@ -141,7 +161,7 @@ let server = http.createServer(app)
 // Reload code here
 reload(app);
 
-// runner.start();
+runner.start();
 
 server.listen(app.get('port'), function () {
     console.log('Web server listening on port ' + app.get('port'));

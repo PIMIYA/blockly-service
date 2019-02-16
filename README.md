@@ -30,11 +30,13 @@
 
 ## TODO
 
+- [ ] 整合 `common` 置 `led-node` 跟 `server` 中，寫個 script 把 `common` 中的當案複製到對應位置。
+
 - [x] 把所有顏色改用 rgb-hex 不要用 constValue.Color
 - [x] 改成 39 nodes，每個 node 一個 board
 - Server
   - [ ] set x, y to color
-  - [ ] set mode 0, 1, 2
+  - [x] set mode 0, 1, 2
   - [x] get all led status [18, 78]
   - [x] get all button status [18, 78]
   - [ ] get all led, button status [18, 78] { button {number}, led {number or rbg_hex} }
@@ -42,7 +44,7 @@
 - Client
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
-  - [ ] API Change mode
+  - [x] API Change mode
 
 註a:
 

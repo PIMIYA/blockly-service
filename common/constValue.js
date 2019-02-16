@@ -1,7 +1,7 @@
 const Color = require('./color');
 
-const NODE_ROW = 2;
-const NODE_COLUMN = 2;
+const NODE_ROW = 1;
+const NODE_COLUMN = 1;
 // const NODE_ROW = 3;
 // const NODE_COLUMN = 13;
 // 每個 node 上的 board row
@@ -9,9 +9,9 @@ const BOARD_ROW = 1;
 // 每個 node 上的 board column
 const BOARD_COLUMN = 1;
 // 每個 board led 寬
-const BOARD_LED_WIDTH = 6;
+const BOARD_LED_WIDTH = 8;
 // 每個 board led 高
-const BOARD_LED_HEIGHT = 6;
+const BOARD_LED_HEIGHT = 8;
 
 module.exports = {
     /** @type {Color} */

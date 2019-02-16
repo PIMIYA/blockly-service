@@ -11,6 +11,7 @@
 const _ = require('underscore');
 const LedPosition = require('./modules/LedPosition');
 const constValue = require('./constValue');
+const modeEnum = require('./modeEnum');
 
 /**
  * Marquee the array.
@@ -77,6 +78,8 @@ function mergeLed(src, dest, ignoreSize) {
 
 class LedManager {
     constructor() {
+        /** @type {number} Current mode [Free, Art, Blockly] */
+        this.mode = modeEnum.FREE;
         /** @type {number} Index of node, Null if is main server */
         this.nodeIndex = null;
         /** @type {Array<Array<string>>} Status of Led color(hex string) */
@@ -109,6 +112,14 @@ class LedManager {
     init(nodeIndex) {
         this.nodeIndex = nodeIndex === undefined ? null : nodeIndex;
         this.resetAll();
+    }
+
+    getMode() {
+        return this.mode;
+    }
+
+    setMode(mode) {
+        this.mode = mode;
     }
 
     /**

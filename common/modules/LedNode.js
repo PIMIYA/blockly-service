@@ -2,8 +2,8 @@ class LedNode {
     constructor() {
         /** @type {number} - Index of node server. */
         this.Index = null;
-        /** @type {string} - Url of node server. */
-        this.Url = '';
+        /** @type {string} - Host of node server. */
+        this.Host = '';
         /** @type {number[]} - Boards index on node server. */
         this.BoardsIndex = [];
     }

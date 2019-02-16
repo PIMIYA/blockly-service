@@ -21,7 +21,8 @@ if (process.platform === "win32") {
 }
 
 process.on("SIGINT", function () {
-    console.log('Node server stopped. Node Index: ' + nodeIndex);
+    ledController.reset();
+    console.log('Node server stopped. Node Index: ' + config.NodeIndex);
     process.exit();
 });
 
@@ -32,9 +33,23 @@ app.use(express.static('public'));
 
 // ========== API
 
+app.get('/mode', function (req, res) {
+    res.json({
+        nodeIndex: config.NodeIndex,
+        mode: ledController.getMode()
+    });
+});
+
+app.post('/mode', function (req, res) {
+    let mode = req.body.mode;
+    ledController.setMode(mode);
+
+    res.end();
+});
+
 app.post('/led', function (req, res) {
     let payload = req.body.payload;
-    ledController.setLeds(payload);
+    ledController.updateLocalLeds(payload);
 
     res.end();
 });
@@ -45,11 +60,12 @@ app.delete('/led', function (req, res) {
     res.end();
 });
 
-// FOR TEST ==========
+// FOR TEST #####
 app.get('/button/:x/:y', function (req, res) {
     let x = parseInt(req.params.x, null);
     let y = parseInt(req.params.y, null);
-    ledController.triggerButton(x, y);
+    ledController.onButtonClickEvent(x, y);
+
     res.end();
 });
 
@@ -58,5 +74,5 @@ app.get('/button/:x/:y', function (req, res) {
 let server = http.createServer(app)
 server.listen(app.get('port'), function () {
     console.log('Node server listening on port ' + app.get('port'));
-    console.log('Node Index ' + nodeIndex);
+    console.log('Node Index ' + config.NodeIndex);
 });

@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const ws281x = require('rpi-ws281x-native');
 
+const modeEnum = require('../common/modeEnum');
 const constValue = require('../common/constValue');
 const ledManager = require('../common/ledManager');
 const utils = require('../common/utils');
@@ -10,12 +11,9 @@ const networkMgr = require('./networkManager');
 
 const serverHost = process.env.ServerHost || config.ServerHost;
 
-function drawLed(led) {
-    ws281x.render(_.flatten(led));
-}
-
-function resetLed() {
-    ws281x.reset();
+function ledDraw(led) {
+    let renderData = utils.hexToUint32Array(_.flatten(led));
+    ws281x.render(renderData);
 }
 
 /**
@@ -25,25 +23,71 @@ class LedController {
     constructor() {}
 
     init(nodeIndex) {
+        let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
         ledManager.init(nodeIndex);
+        ws281x.init(ledSize);
+    }
 
-        ws281x.init(constValue.BoardLedWidth * constValue.BoardLedHeight);
+    onButtonClickEvent(x, y) {
+        switch (ledManager.mode) {
+            case modeEnum.FREE:
+                this.nextLed(x, y);
+                break;
+            case modeEnum.ART:
+                break;
+            case modeEnum.BLOCKLY:
+                this.triggerButton(x, y);
+                break;
+            default:
+                break;
+        }
+    }
+
+    getMode() {
+        return ledManager.getMode();
+    }
+
+    setMode(mode) {
+        ledManager.setMode(mode);
     }
 
     /**
-     * Trigger button. Only for `Blockly mode`.
+     * Set the led from main server.
+     * @param {Array<Array<string>>} ledStatus
+     */
+    updateLocalLeds(ledStatus) {
+        // console.log('==========');
+        // console.log('Boards:', config.BoardsIndex);
+        // console.log('==========');
+        ledManager.setRawLedStatus(ledStatus);
+
+        config.BoardsIndex.forEach((bIdx) => {
+            let led = ledManager.getRawLedStatus(bIdx);
+            ledDraw(led);
+        });
+    }
+
+    /**
+     *
      * @param {number} x Row of board (Starting from 1)
      * @param {number} y Column of board (Starting from 1)
+     * @param {string} color Hex string of color
      */
-    triggerButton(x, y) {
+    sendLed(x, y, color) {
+        console.log(`(${x}, ${y}): ${color}`);
         let pos = utils.nodePosTolMainPos(config.NodeIndex, x, y);
-        console.log(`[${config.NodeIndex}] (${x}, ${y}) => (${pos.Row}, ${pos.Column})`);
-        if (!pos) {
-            console.error(`[${config.NodeIndex}]Trigger button failed. Invalid position (${x}, ${y}).`);
-            return;
-        }
+        networkMgr.changeLedColor(serverHost, pos.Row, pos.Column, color);
+    }
 
-        networkMgr.triggerButton(serverHost, pos.Row, pos.Column);
+    /**
+     * Reset all led to disabled.
+     */
+    reset() {
+        ledManager.resetAll();
+        config.BoardsIndex.forEach((bIdx) => {
+            let led = ledManager.getRawLedStatus(bIdx);
+            ledDraw(led);
+        });
     }
 
     /**
@@ -64,30 +108,25 @@ class LedController {
         } finally {
             config.BoardsIndex.forEach((bIdx) => {
                 let led = ledManager.getRawLedStatus(bIdx);
-                drawLed(led);
+                ledDraw(led);
             });
         }
     }
 
-    sendLed(x, y, color) {
-        console.log(`(${x}, ${y}): ${color}`);
+    /**
+     * Trigger button. Only for `Blockly mode`.
+     * @param {number} x Row of board (Starting from 1)
+     * @param {number} y Column of board (Starting from 1)
+     */
+    triggerButton(x, y) {
         let pos = utils.nodePosTolMainPos(config.NodeIndex, x, y);
-        networkMgr.changeLedColor(serverHost, pos.Row, pos.Column, color);
-    }
+        console.log(`[${config.NodeIndex}] (${x}, ${y}) => (${pos.Row}, ${pos.Column})`);
+        if (!pos) {
+            console.error(`[${config.NodeIndex}]Trigger button failed. Invalid position (${x}, ${y}).`);
+            return;
+        }
 
-    setLeds(ledStatus) {
-        // console.log('==========');
-        // console.log('Boards:', config.BoardsIndex);
-        // console.log('==========');
-        ledManager.setRawLedStatus(ledStatus);
-        config.BoardsIndex.forEach((bIdx) => {
-            let led = ledManager.getRawLedStatus(bIdx);
-            drawLed(led);
-        });
-    }
-
-    reset() {
-        resetLed();
+        networkMgr.triggerButton(serverHost, pos.Row, pos.Column);
     }
 }
 
