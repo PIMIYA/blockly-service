@@ -90,12 +90,30 @@ class Runner {
         console.log('Stop loop');
     }
 
+    resetAll() {
+        NODES.forEach(node => {
+            try {
+                networkMrg.ledReset(node.Host);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+
     changeMode(mode, options) {
         options = options || {};
 
         _locked = true;
 
         ledManager.resetAll();
+        NODES.forEach(node => {
+            try {
+                networkMrg.changeMode(node.Host, mode);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
         switch (mode) {
             case modeEnum.FREE:
                 console.log('Change to Free mode.');

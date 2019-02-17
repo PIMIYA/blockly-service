@@ -122,4 +122,13 @@ module.exports = {
         }
         return led;
     },
+
+    dumpInfo() {
+        console.log(`Total Node: ${this.NodeCount}`);
+        console.log(`Node(R x C): ${this.NodeRow} x ${this.NodeColumn}`);
+        console.log(`   Board(R x C): ${this.BoardRow} x ${this.BoardColumn}`);
+        console.log(`       Led(W x H): ${this.BoardLedWidth} x ${this.BoardLedHeight}`);
+        console.log(`Total Board: ${this.TotalBoard}`);
+        console.log(`   Led(W x H): ${this.TotalLedWidth} x ${this.TotalLedHeight}`);
+    }
 };

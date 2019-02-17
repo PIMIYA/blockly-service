@@ -73,9 +73,14 @@ app.route('/led')
         let x = req.body.x;
         let y = req.body.y;
         let color = req.body.color;
-        console.log(x, y, color);
-
+        // console.log(x, y, color);
         ledManager.setLed(x, y, color);
+
+        res.end();
+    })
+    .delete(function (req, res) {
+        runner.resetAll();
+
         res.end();
     });
 
@@ -165,4 +170,5 @@ runner.start();
 
 server.listen(app.get('port'), function () {
     console.log('Web server listening on port ' + app.get('port'));
+    constValue.dumpInfo();
 });

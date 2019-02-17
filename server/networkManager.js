@@ -20,8 +20,20 @@ class NetworkManager {
     ledReset(host) {
         // console.log(`ledReset::Send to ${host}`);
         let url = `${host}/led`;
-        request.Delete(url, {
-            payload: led
+        request.Delete(url, (error, response) => {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            // console.log(response.data);
+        });
+    }
+
+    changeMode(host, mode) {
+        // console.log(`changeMode::Send to ${host}`);
+        let url = `${host}/mode`;
+        request.Post(url, {
+            mode: mode
         }, (error, response) => {
             if (error) {
                 console.error(error.message);
