@@ -1,10 +1,10 @@
 const Jimp = require('jimp');
 
-const LedNode = require('../common/modules/LedNode');
+const LedNode = require('./common/modules/LedNode');
 
-const modeEnum = require('../common/modeEnum');
-const utils = require('../common/utils');
-const ledManager = require('../common/ledManager');
+const modeEnum = require('./common/modeEnum');
+const utils = require('./common/utils');
+const ledManager = require('./common/ledManager');
 
 const config = require('./config');
 const logicer = require('./logicer');

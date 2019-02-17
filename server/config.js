@@ -1,5 +1,5 @@
-const LedNode = require('../common/modules/LedNode');
-const constValue = require('../common/constValue');
+const LedNode = require('./common/modules/LedNode');
+const constValue = require('./common/constValue');
 
 /**
  * A module that shouts hello!

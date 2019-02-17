@@ -3,10 +3,10 @@ const http = require('http');
 const reload = require('reload');
 const decache = require('decache');
 
-const constValue = require('../common/constValue');
-const utils = require('../common/utils');
-const request = require('../common/request');
-const ledManager = require('../common/ledManager');
+const constValue = require('./common/constValue');
+const utils = require('./common/utils');
+const request = require('./common/request');
+const ledManager = require('./common/ledManager');
 ledManager.init();
 
 const config = require('./config');

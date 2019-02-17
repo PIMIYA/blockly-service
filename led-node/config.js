@@ -1,4 +1,4 @@
-const constValue = require('../common/constValue');
+const constValue = require('./common/constValue');
 /**
  * A module that shouts hello!
  * @module config

@@ -1,6 +1,6 @@
 const config = require('./config');
-const constValue = require('../common/constValue');
-const ledManager = require('../common/ledManager');
+const constValue = require('./common/constValue');
+const ledManager = require('./common/ledManager');
 
 function run() {
     console.log('run...');

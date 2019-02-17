@@ -1,10 +1,10 @@
 const _ = require('underscore');
 const ws281x = require('rpi-ws281x-native');
 
-const modeEnum = require('../common/modeEnum');
-const constValue = require('../common/constValue');
-const ledManager = require('../common/ledManager');
-const utils = require('../common/utils');
+const modeEnum = require('./common/modeEnum');
+const constValue = require('./common/constValue');
+const ledManager = require('./common/ledManager');
+const utils = require('./common/utils');
 
 const config = require('./config');
 const networkMgr = require('./networkManager');

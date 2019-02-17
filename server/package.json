@@ -9,6 +9,7 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
+        "axios": "^0.18.0",
         "decache": "^4.5.1",
         "express": "^4.16.4",
         "jimp": "^0.6.0",

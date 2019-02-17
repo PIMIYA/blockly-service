@@ -8,7 +8,25 @@
 ./src - Blockly source code
 ```
 
-啟動 node server 一定要使用 sudo。
+## 啟動
+
+NOTE: 啟動 node server 一定要使用 sudo。
+
+### 同步 `common`
+
+利用以下命令來同步 `common` 中的檔案，`common` 中的檔案主要為 `server`, `node` 兩都會用到的類別、方法，為了開發方便故移出來共用。
+
+使用前請先安裝 `glob`:
+
+```sh
+npm i glob
+```
+
+執行同步:
+
+```sh
+node sync.js
+```
 
 ## 參考
 
@@ -30,7 +48,7 @@
 
 ## TODO
 
-- [ ] 整合 `common` 置 `led-node` 跟 `server` 中，寫個 script 把 `common` 中的當案複製到對應位置。
+- [x] 整合 `common` 置 `led-node` 跟 `server` 中，寫個 script 把 `common` 中的當案複製到對應位置。
 
 - [x] 把所有顏色改用 rgb-hex 不要用 constValue.Color
 - [x] 改成 39 nodes，每個 node 一個 board
