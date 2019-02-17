@@ -5,7 +5,7 @@ class NetworkManager {
 
     ledStatus(host, led) {
         // console.log(`ledStatus::Send to ${host}`);
-        let url = `${host}/led`;
+        let url = `${host}/api/led`;
         request.Post(url, {
             payload: led
         }, (error, response) => {
@@ -19,7 +19,7 @@ class NetworkManager {
 
     ledReset(host) {
         // console.log(`ledReset::Send to ${host}`);
-        let url = `${host}/led`;
+        let url = `${host}/api/led`;
         request.Delete(url, (error, response) => {
             if (error) {
                 console.error(error.message);
@@ -31,7 +31,7 @@ class NetworkManager {
 
     changeMode(host, mode) {
         // console.log(`changeMode::Send to ${host}`);
-        let url = `${host}/mode`;
+        let url = `${host}/api/mode`;
         request.Post(url, {
             mode: mode
         }, (error, response) => {

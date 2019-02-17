@@ -33,21 +33,21 @@ app.use(express.static('public'));
 
 // ========== API
 
-app.get('/mode', function (req, res) {
-    res.json({
-        nodeIndex: config.NodeIndex,
-        mode: ledController.getMode()
+app.route('/api/mode')
+    .get(function (req, res) {
+        res.json({
+            nodeIndex: config.NodeIndex,
+            mode: ledController.getMode()
+        });
+    })
+    .post(function (req, res) {
+        let mode = req.body.mode;
+        ledController.setMode(mode);
+
+        res.end();
     });
-});
 
-app.post('/mode', function (req, res) {
-    let mode = req.body.mode;
-    ledController.setMode(mode);
-
-    res.end();
-});
-
-app.post('/led', function (req, res) {
+app.post('/api/led', function (req, res) {
     let payload = req.body.payload;
     ledController.updateLocalLeds(payload);
 
@@ -61,7 +61,7 @@ app.delete('/led', function (req, res) {
 });
 
 // FOR TEST #####
-app.get('/button/:x/:y', function (req, res) {
+app.get('/api/button/:x/:y', function (req, res) {
     let x = parseInt(req.params.x, null);
     let y = parseInt(req.params.y, null);
     ledController.onButtonClickEvent(x, y);

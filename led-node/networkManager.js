@@ -12,7 +12,7 @@ class NetworkManager {
      */
     changeLedColor(host, x, y, color) {
         // console.log(host, x, y, color);
-        let url = `${host}/led`;
+        let url = `${host}/api/led`;
         request.Post(url, {
             x: x,
             y: y,
@@ -33,7 +33,7 @@ class NetworkManager {
      */
     triggerButton(host, x, y) {
         // console.log(host, x, y);
-        let url = `${host}/button`;
+        let url = `${host}/api/button`;
         request.Post(url, {
             x: x,
             y: y

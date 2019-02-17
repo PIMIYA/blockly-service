@@ -35,28 +35,32 @@ app.set('port', port);
 app.use(express.json());
 app.use(express.static('public'));
 
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + "/public/" + "index.html");
+});
+
 // ========== API
 
-app.get('/mode', function (req, res) {
-    res.json({
-        mode: ledManager.getMode()
+app.route('/api/mode')
+    .get(function (req, res) {
+        res.json({
+            mode: ledManager.getMode()
+        });
+    })
+    .post(function (req, res) {
+        let mode = req.body.mode;
+        if (mode == null || mode == undefined) {
+            res.status(400).end();
+            return;
+        }
+
+        ledManager.setMode(mode);
+        runner.changeMode(mode);
+
+        res.end();
     });
-});
 
-app.post('/mode', function (req, res) {
-    let mode = req.body.mode;
-    if (mode == null || mode == undefined) {
-        res.status(400).end();
-        return;
-    }
-
-    ledManager.setMode(mode);
-    runner.changeMode(mode);
-
-    res.end();
-});
-
-app.post('/reload', function (req, res) {
+app.post('/api/reload', function (req, res) {
     runner.stop();
     decache('./runner.js');
     runner = require('./runner');
@@ -65,7 +69,7 @@ app.post('/reload', function (req, res) {
     res.end();
 });
 
-app.route('/led')
+app.route('/api/led')
     .get(function (req, res) {
         res.json(ledManager.getRawLedStatus());
     })
@@ -84,7 +88,7 @@ app.route('/led')
         res.end();
     });
 
-app.route('/button')
+app.route('/api/button')
     .get(function (req, res) {
         res.json(ledManager.getAllButtonStatus());
     })
@@ -99,7 +103,7 @@ app.route('/button')
         res.end();
     });
 
-app.post('/broadcast/led', function (req, res) {
+app.post('/api/broadcast/led', function (req, res) {
     // let ledStatus = utils.iterateLed(constValue.TotalLedWidth, constValue.TotalLedHeight);
     let data = req.body.led;
     if (data) {
@@ -128,7 +132,7 @@ app.post('/broadcast/led', function (req, res) {
     res.end();
 });
 
-app.post('/broadcast/button', function (req, res) {
+app.post('/api/broadcast/button', function (req, res) {
     let data = ledManager.getButtonStatus();
 
     config.Nodes.forEach(node => {
@@ -152,7 +156,7 @@ app.post('/broadcast/button', function (req, res) {
 });
 
 // FOR TEST #####
-app.get('/led/:nodeIndex/:boardIndex', function (req, res) {
+app.get('/api/led/:nodeIndex/:boardIndex', function (req, res) {
     const nodeIndex = parseInt(req.params.nodeIndex, null);
     const boardIndex = parseInt(req.params.boardIndex, null);
     console.log(nodeIndex, boardIndex);
