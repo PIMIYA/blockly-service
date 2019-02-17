@@ -79,4 +79,5 @@ let server = http.createServer(app)
 server.listen(app.get('port'), function () {
     console.log('Node server listening on port ' + app.get('port'));
     console.log('Node Index ' + config.NodeIndex);
+    console.log('Server Host ' + config.ServerHost);
 });

@@ -77,7 +77,7 @@ app.route('/api/led')
         let x = req.body.x;
         let y = req.body.y;
         let color = req.body.color;
-        // console.log(x, y, color);
+        console.log(x, y, color);
         ledManager.setLed(x, y, color);
 
         res.end();
