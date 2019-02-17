@@ -85,4 +85,5 @@ node sync.js
     - [canvas](https://www.npmjs.com/package/canvas)
     - [rgba-convert](https://www.npmjs.com/package/rgba-convert)
   - 2: Blockly mode 利用 blockly 製作內容
-- [ ] 上傳 js file 讓產出來的 code 給 server 跑
+- [x] 上傳 js file
+- [ ] Reload `logicer.js`，然後重新執行

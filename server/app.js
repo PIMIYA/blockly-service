@@ -1,10 +1,17 @@
-const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const http = require('http');
+
+const express = require('express');
+const multer = require('multer');
 const reload = require('reload');
 const decache = require('decache');
 
+const upload = multer({
+    dest: 'temp/'
+});
+
 const constValue = require('./common/constValue');
-const utils = require('./common/utils');
 const request = require('./common/request');
 const ledManager = require('./common/ledManager');
 ledManager.init();
@@ -37,6 +44,25 @@ app.use(express.static('public'));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/public/" + "index.html");
+});
+
+app.post('/script', upload.single('file'), function (req, res, next) {
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, "./scripts/logicer.js");
+
+    if (path.extname(req.file.originalname).toLowerCase() === ".js") {
+        fs.rename(tempPath, targetPath, err => {
+            if (err) return handleError(err, res);
+
+            res.status(200).end();
+        });
+    } else {
+        fs.unlink(tempPath, err => {
+            if (err) return handleError(err, res);
+
+            res.status(403).end();
+        });
+    }
 });
 
 // ========== API

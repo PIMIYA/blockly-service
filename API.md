@@ -2,6 +2,16 @@
 
 ## Main Server
 
+**POST `/script`** Upload the script
+
+```latex
+Request:
+  form-data:
+    file: binary file
+
+Response: HTTP Status.
+```
+
 **POST `/api/reload`** Reload logicer script.
 
 ```latex
