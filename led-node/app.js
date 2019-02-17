@@ -64,6 +64,10 @@ app.delete('/led', function (req, res) {
 app.get('/api/button/:x/:y', function (req, res) {
     let x = parseInt(req.params.x, null);
     let y = parseInt(req.params.y, null);
+    if (x == null || y == null) {
+        res.status(400).end('X and Y can not null.');
+        return;
+    }
     ledController.onButtonClickEvent(x, y);
 
     res.end();
