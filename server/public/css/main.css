@@ -1,0 +1,12 @@
+body {
+    font-family: monospace;
+}
+
+#grid span {
+    /* display: block; */
+    /* float: left; */
+    margin: 1px;
+    padding: 0px;
+    height: 25px;
+    width: 25px;
+}

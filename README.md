@@ -59,6 +59,7 @@ node sync.js
   - [x] get all button status [18, 78]
   - [ ] get all led, button status [18, 78] { button {number}, led {number or rbg_hex} }
   - [ ] Send reset to client
+  - [ ] Test Bitmap font, text to led data
 - Client
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
