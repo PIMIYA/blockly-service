@@ -48,4 +48,8 @@ config.SetIndex = function (index) {
     }
 };
 
+config.SetServerHost = function (host) {
+    this.ServerHost = host;
+}
+
 module.exports = config;

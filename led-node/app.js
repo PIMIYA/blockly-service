@@ -2,9 +2,11 @@ const express = require('express');
 const http = require('http');
 
 const config = require('./config');
-let port = process.env.PORT || config.Port || 3000;
+let port = process.env.Port || config.Port || 3000;
 let nodeIndex = process.env.Index || config.NodeIndex;
+let serverHost = process.env.ServerHost || config.ServerHost;
 config.SetIndex(nodeIndex);
+config.SetServerHost(serverHost);
 
 const ledController = require('./ledController');
 ledController.init(nodeIndex);

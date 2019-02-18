@@ -11,7 +11,7 @@ class NetworkManager {
      * @param {string} color Hex string of color
      */
     changeLedColor(host, x, y, color) {
-        console.log(host, x, y, color);
+        // console.log(host, x, y, color);
         let url = `${host}/api/led`;
         request.Post(url, {
             x: x,
@@ -32,7 +32,7 @@ class NetworkManager {
      * @param {number} y
      */
     triggerButton(host, x, y) {
-        console.log(host, x, y);
+        // console.log(host, x, y);
         let url = `${host}/api/button`;
         request.Post(url, {
             x: x,
@@ -42,6 +42,18 @@ class NetworkManager {
                 console.error(error.message);
                 return;
             }
+        });
+    }
+
+    getServerMode(host, cb) {
+        let url = `${host}/api/mode`;
+        request.Get(url, (error, response) => {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+
+            if (cb) cb(response.mode);
         });
     }
 }

@@ -9,7 +9,7 @@ const utils = require('./common/utils');
 const config = require('./config');
 const networkMgr = require('./networkManager');
 
-const serverHost = process.env.ServerHost || config.ServerHost;
+const serverHost = config.ServerHost;
 
 function ledDraw(led) {
     let renderData = utils.hexToUint32Array(_.flatten(led));
@@ -26,6 +26,12 @@ class LedController {
         let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
         ledManager.init(nodeIndex);
         ws281x.init(ledSize);
+
+        networkMgr.getServerMode(serverHost,
+            (mode) => {
+                this.setMode(mode);
+            }
+        );
     }
 
     onButtonClickEvent(x, y) {
@@ -48,6 +54,7 @@ class LedController {
     }
 
     setMode(mode) {
+        console.log(`Set mode: ${mode}`);
         ledManager.setMode(mode);
     }
 

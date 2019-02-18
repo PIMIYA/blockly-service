@@ -36,7 +36,7 @@ process.on("SIGINT", function () {
     process.exit();
 });
 
-let port = process.env.PORT || config.Port || 3000;
+let port = process.env.Port || config.Port || 3000;
 let app = express();
 app.set('port', port);
 app.use(express.json());
@@ -103,7 +103,7 @@ app.route('/api/led')
         let x = req.body.x;
         let y = req.body.y;
         let color = req.body.color;
-        console.log(x, y, color);
+        // console.log(x, y, color);
         ledManager.setLed(x, y, color);
 
         res.end();

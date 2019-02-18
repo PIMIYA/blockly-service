@@ -10,6 +10,38 @@
 
 ## 啟動
 
+### Led Server
+
+資料夾 `server` 為 led server，使用命令 `node app.js` 啟動 led server；
+
+啟動前確認 `server/config.js` 內的資訊是否正確，最主要應該 `config.Port` 以及 `node.Host` 要修改設定。
+
+Port 可以透過啟動命令直接以環境變數的方式給予修改
+
+```sh
+# mac or linux
+Port=1234 node app.js
+
+# windows powershell
+$env:Port=1234; node app.js
+```
+
+### Led Node
+
+資料夾 `led-node` 為 led node，使用命令 `node app.js` 啟動 led node；
+
+啟動前確認 `led-node/config.js` 內的資訊是否正確，最主要應該 `config.NodeIndex`, `config.Port` 以及 `config.ServerHost` 要修改設定。
+
+NodeIndex, Port 以及 ServerHost 可以透過啟動命令直接以環境變數的方式給予修改
+
+```sh
+# mac or linux
+Index=0 Port=1234 ServerHost="http://192.168.1.123:3000" node app.js
+
+# windows powershell
+$env:Index=0; $env:Port=1234; $env:ServerHost="http://192.168.1.123:3000"; node app.js
+```
+
 NOTE: 啟動 node server 一定要使用 sudo。
 
 ### 同步 `common`
@@ -49,17 +81,18 @@ node sync.js
 ## TODO
 
 - [x] 整合 `common` 置 `led-node` 跟 `server` 中，寫個 script 把 `common` 中的當案複製到對應位置。
+- [ ] 把 server, node 拆成兩個專案好管理(?)
 
 - [x] 把所有顏色改用 rgb-hex 不要用 constValue.Color
 - [x] 改成 39 nodes，每個 node 一個 board
 - Server
-  - [ ] set x, y to color
+  - [x] set x, y to color
   - [x] set mode 0, 1, 2
   - [x] get all led status [18, 78]
   - [x] get all button status [18, 78]
   - [ ] get all led, button status [18, 78] { button {number}, led {number or rbg_hex} }
-  - [ ] Send reset to client
-  - [ ] Test Bitmap font, text to led data
+  - [X] Send reset to client
+  - [X] Test Bitmap font, text to led data => 目前只有英文跟一些符號的字型可用
 - Client
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
