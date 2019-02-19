@@ -18,6 +18,7 @@
     <script src="prettify/prettify.js"></script>
 
     <script src="js/utils.js"></script>
+
     <script src="js/blocks.js"></script>
     <script src="js/generator.js"></script>
 </head>
@@ -339,18 +340,22 @@
         <category name="{catVariables}" colour="330" custom="VARIABLE"></category>
         <sep></sep>
         <category name="LED" colour="120">
-            <block type="button_status"></block>
             <block type="led_matrix_input"></block>
             <block type="led_6x6"></block>
-            <block type="set_led"></block>
-            <block type="led_enabled"></block>
+
+            <block type="setLed"></block>
             <block type="led_color"></block>
+
+            <block type="led_enabled"></block>
+            <block type="button_status"></block>
+
+            <block type="set_full_led"></block>
             <block type="led_78x18"></block>
         </category>
     </xml>
 
     <xml id="startBlocks" style="display:none">
-        <block type="procedures_defnoreturn"x="13" y="38">
+        <block type="procedures_defnoreturn" x="13" y="38">
             <field name="NAME">run</field>
             <comment pinned="false" h="80" w="160"></comment>
         </block>

@@ -79,7 +79,6 @@ Code.initLanguage = function () {
 Code.getGeneratedScript = function () {
     let code = Blockly.JavaScript.workspaceToCode(Code.workspace);
     let fullCode = `const config = require('./config');
-const request = require('./request');
 const constValue = require('./common/constValue');
 const ledManager = require('./common/ledManager');
 

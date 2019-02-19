@@ -69,62 +69,28 @@ Blockly.Blocks['led_matrix_input'] = {
 
 Blockly.Blocks['led_6x6'] = {
     init: function () {
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led1_1')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led1_2')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led1_3')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led1_4')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led1_5')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led1_6');
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led2_1')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led2_2')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led2_3')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led2_4')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led2_5')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led2_6');
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led3_1')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led3_2')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led3_3')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led3_4')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led3_5')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led3_6');
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led4_1')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led4_2')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led4_3')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led4_4')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led4_5')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led4_6');
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led5_1')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led5_2')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led5_3')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led5_4')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led5_5')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led5_6');
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led6_1')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led6_2')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led6_3')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led6_4')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led6_5')
-            .appendField(new Blockly.FieldColour(utils.NONE_COLOR), 'led6_6');
-        this.setOutput(true, null);
-        this.setColour(230);
+        for (var x = 1; x <= constValue.BoardHeight; x++) {
+            var block = this.appendDummyInput();
+            for (var y = 1; y <= constValue.BoardWidth; y++) {
+                var valueName = ['led', x, '_', y].join('');
+                block.appendField(new Blockly.FieldColour(utils.NONE_COLOR), valueName);
+            }
+        }
+
+        this.setOutput(true, 'led_6x6');
+        this.setColour(180);
         this.setTooltip("灰色表示不變更當前顏色");
         this.setHelpUrl("");
     }
 };
 
-Blockly.Blocks['set_led'] = {
+Blockly.Blocks['setLed'] = {
     init: function () {
         this.appendDummyInput()
             .appendField("Set LED ( X:")
-            .appendField(new Blockly.FieldNumber(1, 1, 18), "x")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalHeight), "x")
             .appendField(", Y:")
-            .appendField(new Blockly.FieldNumber(1, 1, 78), "y")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalWidth), "y")
             .appendField(")")
             .appendField(new Blockly.FieldColour(utils.NONE_COLOR), "led_clr");
         this.setPreviousStatement(true, null);
@@ -140,9 +106,9 @@ Blockly.Blocks['led_enabled'] = {
         this.appendDummyInput()
             // .appendField(new Blockly.FieldVariable("led_enabled"), "led_enabled")
             .appendField("Led ( X:")
-            .appendField(new Blockly.FieldNumber(1, 1, 18), "x")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalHeight), "x")
             .appendField(", Y:")
-            .appendField(new Blockly.FieldNumber(1, 1, 78), "y")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalWidth), "y")
             .appendField(") is enabled");
         this.setOutput(true, "Boolean");
         this.setColour(210);
@@ -155,9 +121,9 @@ Blockly.Blocks['led_color'] = {
     init: function () {
         this.appendDummyInput()
             .appendField("Led Color: ( X:")
-            .appendField(new Blockly.FieldNumber(1, 1, 18), "x")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalHeight), "x")
             .appendField(", Y:")
-            .appendField(new Blockly.FieldNumber(1, 1, 78), "y")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalWidth), "y")
             .appendField(")");
         this.setOutput(true, "Number");
         this.setColour(210);
@@ -166,17 +132,31 @@ Blockly.Blocks['led_color'] = {
     }
 };
 
+Blockly.Blocks['set_full_led'] = {
+    init: function () {
+        this.appendValueInput("full_led_matrix")
+            .setCheck("led_78x18")
+            .appendField("LED");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(290);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+};
+
 Blockly.Blocks['led_78x18'] = {
     init: function () {
-        for (let x = 1; x <= 18; x++) {
+        for (var x = 1; x <= constValue.TotalHeight; x++) {
             var block = this.appendDummyInput();
-            for (let y = 1; y <= 78; y++) {
-                block.appendField(new Blockly.FieldColour(utils.NONE_COLOR), `led${x}_${y}`);
+            for (var y = 1; y <= constValue.TotalWidth; y++) {
+                var valueName = ['led', x, '_', y].join('');
+                block.appendField(new Blockly.FieldColour(utils.NONE_COLOR), valueName);
             }
         }
 
-        this.setOutput(true, null);
-        this.setColour(230);
+        this.setOutput(true, 'led_78x18');
+        this.setColour(180);
         this.setTooltip("灰色表示不變更當前顏色");
         this.setHelpUrl("");
     }
@@ -185,11 +165,10 @@ Blockly.Blocks['led_78x18'] = {
 Blockly.Blocks['button_status'] = {
     init: function () {
         this.appendDummyInput()
-            // .appendField(new Blockly.FieldVariable("led_enabled"), "led_enabled")
             .appendField("Button ( X:")
-            .appendField(new Blockly.FieldNumber(1, 1, 18), "x")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalHeight), "x")
             .appendField(", Y:")
-            .appendField(new Blockly.FieldNumber(1, 1, 78), "y")
+            .appendField(new Blockly.FieldNumber(1, 1, constValue.TotalWidth), "y")
             .appendField(") is enabled");
         this.setOutput(true, "Boolean");
         this.setColour(325);

@@ -3,19 +3,17 @@ const constValue = require('./common/constValue');
 const ledManager = require('./common/ledManager');
 
 function run() {
-    console.log('run...');
-    // ledManager.marqueeLed();
-    // if (ledManager.isLedEnabled(1, 1)) {
-    //     ledManager.setLed(2, 1, 1);
-    // }
-}
-
-class Logicer {
-    doRun() {
-        console.log('Running logicer...');
-        // ledManager.resetAll();
-        run();
+    if (ledManager.getButtonStatus(1, 1) != 0) {
+        console.log('button 1, 1 enable');
+    } else {
+        console.log('button 1, 1 disable');
     }
 }
 
+
+class Logicer {
+    doRun() {
+        run();
+    }
+}
 module.exports = new Logicer();
