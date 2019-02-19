@@ -47,8 +47,8 @@ Blockly.JavaScript['setLed'] = function (block) {
 
     var code = 'ledManager.setLed(' +
         number_x + ',' +
-        number_y + ',' +
-        colour_led_clr + ');\n';
+        number_y + ',"' +
+        colour_led_clr + '");\n';
     return code;
 };
 
