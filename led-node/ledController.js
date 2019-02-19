@@ -28,8 +28,8 @@ class LedController {
         ws281x.init(ledSize);
 
         networkMgr.getServerMode(serverHost,
-            (mode) => {
-                this.setMode(mode);
+            (response) => {
+                this.setMode(response.mode);
             }
         );
     }

@@ -53,7 +53,7 @@ class NetworkManager {
                 return;
             }
 
-            if (cb) cb(response.mode);
+            if (cb) cb(response.data);
         });
     }
 }
