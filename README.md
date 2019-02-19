@@ -91,12 +91,19 @@ node sync.js
   - [x] get all led status [18, 78]
   - [x] get all button status [18, 78]
   - [x] get all led, button status [18, 78] { button {number}, led {rbg_hex} }
-  - [X] Send reset to client
-  - [X] Test Bitmap font, text to led data => 目前只有英文跟一些符號的字型可用
+  - [x] Send reset to client
+  - [x] Test Bitmap font, text to led data => 目前只有英文跟一些符號的字型可用
+  - [x] 上傳 js file
+  - [x] Reload `logicer.js`，然後重新執行
+  - [ ] upload image file
+  - [ ] ledManager.renderImage(cache image?)
 - Client
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
   - [x] API Change mode
+- Blockly
+  - [ ] use image to led
+  - [ ] add font on x, y
 
 註a:
 
@@ -118,6 +125,4 @@ node sync.js
     - [canvas](https://www.npmjs.com/package/canvas)
     - [rgba-convert](https://www.npmjs.com/package/rgba-convert)
   - 2: Blockly mode 利用 blockly 製作內容
-- [x] 上傳 js file
-- [x] Reload `logicer.js`，然後重新執行
 - [ ] 下載 Blockly 產出來的 javascript
