@@ -152,7 +152,7 @@ class Runner {
 
             default:
                 _currentTask = null;
-                console.error(`Set mode failed. There is node mode: ${mode}`);
+                console.error(`Set mode failed. There is no mode: ${mode}`);
                 break;
         }
     }

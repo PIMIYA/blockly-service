@@ -197,6 +197,7 @@ let server = http.createServer(app)
 // Reload code here
 reload(app);
 
+runner.changeMode(ledManager.getMode());
 runner.start();
 
 server.listen(app.get('port'), function () {
