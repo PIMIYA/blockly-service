@@ -130,6 +130,14 @@ app.route('/api/button')
         res.end();
     });
 
+app.get('/api/status', function (req, res) {
+    let detail = {
+        led: ledManager.getRawLedStatus(),
+        button: ledManager.getAllButtonStatus()
+    }
+    res.json(detail);
+});
+
 app.post('/api/broadcast/led', function (req, res) {
     // let ledStatus = utils.iterateLed(constValue.TotalLedWidth, constValue.TotalLedHeight);
     let data = req.body.led;

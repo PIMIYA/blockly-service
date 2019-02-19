@@ -101,17 +101,20 @@ class Runner {
 
     changeMode(mode, options) {
         options = options || {};
+        options.sendToNode = options.sendToNode == undefined ? true : options.sendToNode;
 
         _locked = true;
 
         ledManager.resetAll();
-        NODES.forEach(node => {
-            try {
-                networkMrg.changeMode(node.Host, mode);
-            } catch (error) {
-                console.error(error);
-            }
-        });
+        if (options.sendToNode) {
+            NODES.forEach(node => {
+                try {
+                    networkMrg.changeMode(node.Host, mode);
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        }
 
         switch (mode) {
             case modeEnum.FREE:

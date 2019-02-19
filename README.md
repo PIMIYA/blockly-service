@@ -90,7 +90,7 @@ node sync.js
   - [x] set mode 0, 1, 2
   - [x] get all led status [18, 78]
   - [x] get all button status [18, 78]
-  - [ ] get all led, button status [18, 78] { button {number}, led {number or rbg_hex} }
+  - [x] get all led, button status [18, 78] { button {number}, led {rbg_hex} }
   - [X] Send reset to client
   - [X] Test Bitmap font, text to led data => 目前只有英文跟一些符號的字型可用
 - Client

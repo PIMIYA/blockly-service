@@ -23,7 +23,7 @@ Response: HTTP Status.
 ```latex
 Response:
 {
-  payload: {string[][]} 2d array of hex string of color.
+  "payload": {string[][]} 2d array of hex string of color.
 }
 ```
 
@@ -32,9 +32,9 @@ Response:
 ```latex
 Request:
 {
-  x: {number} Position of X.(Row)
-  y: {number} Position of Y.(Column)
-  color: {string} Hex string of color.
+  "x": {number} Position of X.(Row)
+  "y": {number} Position of Y.(Column)
+  "color": {string} Hex string of color.
 }
 
 Response: HTTP Status.
@@ -45,7 +45,7 @@ Response: HTTP Status.
 ```latex
 Response:
 {
-  payload: {number[][]} 2d array of status of button.
+  "payload": {number[][]} 2d array of status of button.
 }
 ```
 
@@ -54,8 +54,8 @@ Response:
 ```latex
 Request:
 {
-  x: {number} Position of X.(Row)
-  y: {number} Position of Y.(Column)
+  "x": {number} Position of X.(Row)
+  "y": {number} Position of Y.(Column)
 }
 
 Response: HTTP Status.
@@ -73,6 +73,16 @@ Response: HTTP Status.
 Response: HTTP Status.
 ```
 
+**GET `/api/status`** Get all leds color and button status.
+
+```latex
+Response:
+{
+  "led": {string[][]} 2d array of hex string of color.
+  "button": {number[][]} 2d array of status of button.
+}
+```
+
 ## Node Server
 
 **POST `/api/led`** Set led.
@@ -82,7 +92,7 @@ payload 會是全部的 led 資料，各個 node 會依照 index 來擷取必要
 ```latex
 Request:
 {
-  payload: {string[][]} 2d array of hex string of color.
+  "payload": {string[][]} 2d array of hex string of color.
 }
 
 Response: HTTP Status.
