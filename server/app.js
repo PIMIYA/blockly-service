@@ -90,6 +90,7 @@ app.post('/api/reload', function (req, res) {
     runner.stop();
     decache('./runner.js');
     runner = require('./runner');
+    runner.changeMode(ledManager.getMode());
     runner.start();
 
     res.end();

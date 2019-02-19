@@ -119,4 +119,5 @@ node sync.js
     - [rgba-convert](https://www.npmjs.com/package/rgba-convert)
   - 2: Blockly mode 利用 blockly 製作內容
 - [x] 上傳 js file
-- [ ] Reload `logicer.js`，然後重新執行
+- [x] Reload `logicer.js`，然後重新執行
+- [ ] 下載 Blockly 產出來的 javascript

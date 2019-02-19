@@ -7,7 +7,7 @@ const utils = require('./common/utils');
 const ledManager = require('./common/ledManager');
 
 const config = require('./config');
-const logicer = require('./logicer');
+const logicer = require('./scripts/logicer');
 const networkMrg = require('./networkManager');
 
 const INTERVAL = 60;
@@ -79,7 +79,6 @@ class Runner {
 
     start() {
         console.log('Start loop');
-        logicer.doRun();
         _intervalId = setInterval(this.loop, INTERVAL);
     }
 
