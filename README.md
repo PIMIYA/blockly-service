@@ -98,6 +98,8 @@ node sync.js
   - [x] 增加 elapsed time 相關方法
   - [x] upload image file
   - [ ] ledManager.renderImage(cache image?)
+  - [ ] Jimp.image to ledStatus
+  - [ ] ledStatus to Jimp.image
 - Client(Node Server)
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
