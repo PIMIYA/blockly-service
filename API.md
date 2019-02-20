@@ -12,6 +12,16 @@ Request:
 Response: HTTP Status.
 ```
 
+**POST `/image`** Upload the images (max count: 10)
+
+```latex
+Request:
+  form-data:
+    images: array of binary file
+
+Response: HTTP Status.
+```
+
 **POST `/api/reload`** Reload logicer script.
 
 ```latex

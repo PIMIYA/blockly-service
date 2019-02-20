@@ -46,9 +46,10 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + "/public/" + "index.html");
 });
 
+const scriptFilePath = './scripts/logicer.js';
 app.post('/script', upload.single('file'), function (req, res, next) {
     const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, "./scripts/logicer.js");
+    const targetPath = path.join(__dirname, scriptFilePath);
 
     if (path.extname(req.file.originalname).toLowerCase() === ".js") {
         fs.rename(tempPath, targetPath, err => {
@@ -63,6 +64,21 @@ app.post('/script', upload.single('file'), function (req, res, next) {
             res.status(403).end();
         });
     }
+});
+
+const imagePath = './public/images';
+app.post('/image', upload.array('images', 10), function (req, res, next) {
+    const targetDir = path.join(__dirname, imagePath);
+
+    req.files.forEach(file => {
+        let tempPath = file.path;
+        let targetPath = path.join(targetDir, file.originalname);
+        fs.rename(tempPath, targetPath, err => {
+            if (err) return handleError(err, res);
+
+            res.status(200).end();
+        });
+    });
 });
 
 // ========== API
