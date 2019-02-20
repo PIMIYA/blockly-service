@@ -101,3 +101,22 @@ Blockly.JavaScript['set_full_led'] = function (block) {
     var code = 'ledManager.setRawLedStatus(' + fullLed + ');\n';
     return code;
 };
+
+Blockly.JavaScript['marquee_led'] = function (block) {
+    var shiftValue = block.getFieldValue('shift');
+
+    var code = 'ledManager.marqueeLed(' + shiftValue + ');\n';
+    return code;
+};
+
+Blockly.JavaScript['elapsed_time'] = function (block) {
+    var number_millisecond = block.getFieldValue('millisecond');
+
+    var code = 'runtimeValue.isElapsedGreaterThen(' + number_millisecond + ')';
+    return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['reset_elapsed_time'] = function (block) {
+    var code = 'runtimeValue.resetElapsed();\n';
+    return code;
+};

@@ -78,17 +78,15 @@ Code.initLanguage = function () {
 
 Code.getGeneratedScript = function () {
     let code = Blockly.JavaScript.workspaceToCode(Code.workspace);
-    let fullCode = `const config = require('../config');
-const constValue = require('../common/constValue');
+    let fullCode = `const constValue = require('../common/constValue');
 const ledManager = require('../common/ledManager');
+const config = require('../config');
+const runtimeValue = require('../runtimeValue');
 
 ${code}
-class Logicer {
-    doRun() {
-        run();
-    }
-}
-module.exports = new Logicer();
+module.exports = {
+    run: run
+};
 `;
     return document.createTextNode(fullCode);
 }

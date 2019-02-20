@@ -10,7 +10,9 @@ const config = require('./config');
 const logicer = require('./scripts/logicer');
 const networkMrg = require('./networkManager');
 
-const INTERVAL = 60;
+const runtimeValue = require('./runtimeValue');
+
+const INTERVAL = 100;
 /** @type {LedNode[]} */
 const NODES = config.Nodes;
 
@@ -25,11 +27,14 @@ let _art = {
 };
 
 class Runner {
-    constructor() {}
+    constructor() {
+        this.lastUpdateTime = Date.now();
+    }
 
     loop() {
         if (_currentTask == null) {
             // console.warn('No task now.');
+            this.lastUpdateTime = Date.now();
             return;
         }
 
@@ -38,16 +43,18 @@ class Runner {
         }
 
         _locked = true;
-        _currentTask();
+        let elapsed = Date.now() - this.lastUpdateTime;
+        _currentTask(elapsed);
+        this.lastUpdateTime = Date.now();
         _locked = false;
     }
 
-    runFreeMode() {
+    runFreeMode(elapsed) {
         // console.log('Free mode running...');
         // do nothing...
     }
 
-    runArtMode() {
+    runArtMode(elapsed) {
         // console.log('Art mode running...');
 
         /** @type {Array<Array<string>>} */
@@ -64,10 +71,11 @@ class Runner {
         _art.index = ++_art.index % _art.length;
     }
 
-    runBlockyMode() {
+    runBlockyMode(elapsed) {
         // console.log('Blockly mode running...');
 
-        logicer.doRun();
+        runtimeValue.addElapsed(elapsed);
+        logicer.run();
         NODES.forEach(node => {
             try {
                 networkMrg.ledStatus(node.Host, ledManager.getRawLedStatus());

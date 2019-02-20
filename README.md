@@ -85,7 +85,7 @@ node sync.js
 
 - [x] 把所有顏色改用 rgb-hex 不要用 constValue.Color
 - [x] 改成 39 nodes，每個 node 一個 board
-- Server
+- Server(Main Server)
   - [x] set x, y to color
   - [x] set mode 0, 1, 2
   - [x] get all led status [18, 78]
@@ -95,15 +95,17 @@ node sync.js
   - [x] Test Bitmap font, text to led data => 目前只有英文跟一些符號的字型可用
   - [x] 上傳 js file
   - [x] Reload `logicer.js`，然後重新執行
+  - [x] 增加 elapsed time 相關方法
   - [ ] upload image file
   - [ ] ledManager.renderImage(cache image?)
-- Client
+- Client(Node Server)
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
   - [x] API Change mode
 - Blockly
-  - [ ] use image to led
-  - [ ] add font on x, y
+  - [x] 增加 elapsed time 相關方法
+  - [x] 增加位移 led 方法
+  - [ ] render image to led
 
 註a:
 

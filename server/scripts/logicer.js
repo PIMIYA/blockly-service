@@ -1,9 +1,9 @@
-const config = require('../config');
 const constValue = require('../common/constValue');
 const ledManager = require('../common/ledManager');
+const config = require('../config');
+const runtimeValue = require('../runtimeValue');
 
 function run() {
-    console.log(ledManager.getButtonStatus(3, 3));
     if (ledManager.getButtonStatus(3, 3) != 0) {
         ledManager.setLed(1, 8, "#ffffff");
         ledManager.setRawLedByMatrixObject({
@@ -37,9 +37,6 @@ function run() {
     }
 }
 
-class Logicer {
-    doRun() {
-        run();
-    }
-}
-module.exports = new Logicer();
+module.exports = {
+    run: run
+};

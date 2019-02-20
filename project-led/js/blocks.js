@@ -176,3 +176,44 @@ Blockly.Blocks['button_status'] = {
         this.setHelpUrl("");
     }
 };
+
+Blockly.Blocks['marquee_led'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("位移 LED")
+            .appendField(new Blockly.FieldDropdown([
+                ["往左", "1"],
+                ["往右", "-1"]
+            ]), "shift");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(105);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+};
+
+Blockly.Blocks['elapsed_time'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("經過")
+            .appendField(new Blockly.FieldNumber(100, 100), "millisecond")
+            .appendField("毫秒");
+        this.setOutput(true, "Boolean");
+        this.setColour(0);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+};
+
+Blockly.Blocks['reset_elapsed_time'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("重置經過時間");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(330);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+};
