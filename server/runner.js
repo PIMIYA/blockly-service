@@ -12,7 +12,7 @@ const networkMrg = require('./networkManager');
 
 const runtimeValue = require('./runtimeValue');
 
-const INTERVAL = 100;
+const INTERVAL = config.RunnerInterval || 100;
 /** @type {LedNode[]} */
 const NODES = config.Nodes;
 

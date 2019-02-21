@@ -4,14 +4,21 @@
  * nodeIndex 表示各個 Node 的編號 0 代表最左邊的 Node，一個 Node 存在著 constValue.BoardCount 個 Led board
  * Server side nodeIndex 不要設定，要為 null，不然在設定 Led 狀態的時候會只存取部分 Led 資料
  * Node side 要在一開始就設定 nodeIndex，這樣在拿到 server 傳送過來的資料後設定(setRawLedStatus)會自動擷取相對應 nodeIndex 的 Led 資料
- *
- *  TODO: runtimeLedStatus: 尚未實作，打算把空白塞進 rawLedStatus 中，讓跑馬燈狀態下看起來有間隔
+ */
+
+/**
+ * TODO: runtimeLedStatus: 尚未實作，打算把空白塞進 rawLedStatus 中，讓跑馬燈狀態下看起來有間隔
+ * TODO: 馬跑燈, 實做跑馬燈中間的空白
+ * TODO: Cached the leds from jimp images
  */
 
 const _ = require('underscore');
+const Jimp = require('jimp');
+
 const LedPosition = require('./modules/LedPosition');
 const constValue = require('./constValue');
 const modeEnum = require('./modeEnum');
+const utils = require('./utils');
 
 /**
  * Marquee the array.
@@ -74,6 +81,40 @@ function mergeLed(src, dest, ignoreSize) {
 
     let columnCount = len / width;
     return _.chunk(result, columnCount);
+}
+
+let _originImage = new Jimp(78, 18, '#ffffff');
+
+/**
+ *
+ * @param {string} filePath
+ * @returns {Array<Array<string>>}
+ */
+async function jimpToLed(filePath) {
+    try {
+        let image = await Jimp.read(filePath);
+        let tmp = [];
+        image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
+            var r = this.bitmap.data[idx + 0];
+            var g = this.bitmap.data[idx + 1];
+            var b = this.bitmap.data[idx + 2];
+            // console.log(`${x}, ${y}: ${r} ${g} ${b}`);
+            tmp.push(utils.rgb2Hex(r, g, b));
+        });
+
+        return _.chunk(tmp, constValue.TotalLedWidth);
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+function ledToJimp(image, callback) {
+    new Jimp(_originImage, async (err, image) => {
+        await image.setPixelColor(Jimp.rgbaToInt(255, 0, 0, 255), 0, 0);
+
+        if (callback) callback();
+    });
 }
 
 class LedManager {
@@ -364,8 +405,12 @@ class LedManager {
         this.buttonStatus[pos.Row][pos.Column] = status;
     }
 
-    // TODO: 馬跑燈,
-    // TODO: 實做跑馬燈中間的空白
+    async renderImage(filePath) {
+        let ledData = await jimpToLed(filePath);
+        if (ledData != null) {
+            this.setRawLedStatus(ledData);
+        }
+    }
 }
 
 module.exports = new LedManager();

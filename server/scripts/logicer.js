@@ -3,7 +3,7 @@ const ledManager = require('../common/ledManager');
 const config = require('../config');
 const runtimeValue = require('../runtimeValue');
 
-function run() {
+function test1() {
     if (ledManager.getButtonStatus(3, 3) != 0) {
         ledManager.setLed(1, 8, "#ffffff");
         ledManager.setRawLedByMatrixObject({
@@ -35,6 +35,18 @@ function run() {
             ]
         });
     }
+}
+
+let index = 0;
+
+function test2() {
+    index %= 8;
+    let file = `./res/images/block-${index++}.jpg`;
+    ledManager.renderImage(file);
+}
+
+function run() {
+    test2()
 }
 
 module.exports = {
