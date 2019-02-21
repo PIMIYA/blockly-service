@@ -1,4 +1,5 @@
 const Jimp = require('jimp');
+const Dict = require('./dict');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -25,6 +26,13 @@ async function run() {
     console.log(2);
     await sleep(500);
     console.log(3);
+
+    let dict = new Dict();
+    dict.add(1, {
+        x: 1
+    });
+    console.log(dict.get(1));
+
 }
 
 run();
