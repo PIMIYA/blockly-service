@@ -120,3 +120,9 @@ Blockly.JavaScript['reset_elapsed_time'] = function (block) {
     var code = 'runtimeValue.resetElapsed();\n';
     return code;
 };
+
+Blockly.JavaScript['render_image'] = function (block) {
+    var text_filename = block.getFieldValue('fileName');
+    var code = 'ledManager.renderImage(\'' + text_filename + '\');\n';
+    return code;
+};

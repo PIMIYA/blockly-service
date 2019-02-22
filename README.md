@@ -109,7 +109,7 @@ node sync.js
 - Blockly
   - [x] 增加 elapsed time 相關方法
   - [x] 增加位移 led 方法
-  - [ ] render image to led
+  - [x] render image to led
 
 註a:
 

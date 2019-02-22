@@ -217,3 +217,17 @@ Blockly.Blocks['reset_elapsed_time'] = {
         this.setHelpUrl("");
     }
 };
+
+Blockly.Blocks['render_image'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Render image")
+            .appendField("檔案名稱")
+            .appendField(new Blockly.FieldTextInput("default.png"), "fileName");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("支援 jpg, png");
+        this.setHelpUrl("");
+    }
+};
