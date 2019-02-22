@@ -28,11 +28,12 @@ async function run() {
     console.log(3);
 
     let dict = new Dict();
-    dict.add(1, {
+    dict.addOrUpdate(1, {
         x: 1
     });
     console.log(dict.get(1));
-
+    dict.del(1);
+    console.log(dict.exists(1), dict.get(1));
 }
 
 run();

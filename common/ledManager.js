@@ -15,10 +15,13 @@
 const _ = require('underscore');
 const Jimp = require('jimp');
 
+const Dict = require('./dict');
 const LedPosition = require('./modules/LedPosition');
 const constValue = require('./constValue');
 const modeEnum = require('./modeEnum');
 const utils = require('./utils');
+
+const _dict = new Dict();
 
 /**
  * Marquee the array.
@@ -92,6 +95,11 @@ let _originImage = new Jimp(78, 18, '#ffffff');
  */
 async function jimpToLed(filePath) {
     try {
+        let led = _dict.get(filePath);
+        if (led != null) {
+            return led;
+        }
+
         let image = await Jimp.read(filePath);
         let tmp = [];
         image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
@@ -102,14 +110,17 @@ async function jimpToLed(filePath) {
             tmp.push(utils.rgb2Hex(r, g, b));
         });
 
-        return _.chunk(tmp, constValue.TotalLedWidth);
+        led = _.chunk(tmp, constValue.TotalLedWidth);
+        _dict.addOrUpdate(filePath, led);
+
+        return led;
     } catch (error) {
         console.error(error);
         return null;
     }
 }
 
-function ledToJimp(image, callback) {
+async function ledToJimp(image, callback) {
     new Jimp(_originImage, async (err, image) => {
         await image.setPixelColor(Jimp.rgbaToInt(255, 0, 0, 255), 0, 0);
 

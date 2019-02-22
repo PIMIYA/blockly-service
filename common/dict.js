@@ -40,7 +40,7 @@ class Dict {
         return this.existsById(id);
     }
 
-    add(key, value) {
+    addOrUpdate(key, value) {
         let id = base64.encode(key);
         this._cachedObjects[id] = value;
     }
@@ -52,6 +52,13 @@ class Dict {
         }
 
         return null;
+    }
+
+    del(key) {
+        let id = base64.encode(key);
+        if (this.existsById(id)) {
+            delete this._cachedObjects[id];
+        }
     }
 }
 
