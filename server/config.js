@@ -15,7 +15,7 @@ let config = {};
 /** @type {number} Port of server */
 config.Port = 3000;
 /** @type {string} Resource path */
-config.ResourcePath = './public/images';
+config.ResourcePath = './res/images';
 /** @type {number} Interval of runner */
 config.RunnerInterval = 500;
 /** @type {LedNode[]} */

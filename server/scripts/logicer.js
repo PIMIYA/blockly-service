@@ -41,8 +41,8 @@ let index = 0;
 
 function test2() {
     index %= 8;
-    let file = `./res/images/block-${index++}.jpg`;
-    ledManager.renderImage(file);
+    ledManager.renderImage(`block-${index}.jpg`);
+    index++;
 }
 
 function run() {

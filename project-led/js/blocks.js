@@ -220,10 +220,11 @@ Blockly.Blocks['reset_elapsed_time'] = {
 
 Blockly.Blocks['render_image'] = {
     init: function () {
-        this.appendDummyInput()
+        this.appendValueInput("fileName")
+            .setCheck("String")
             .appendField("Render image")
-            .appendField("檔案名稱")
-            .appendField(new Blockly.FieldTextInput("default.png"), "fileName");
+            .appendField("檔案名稱");
+        this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(230);
