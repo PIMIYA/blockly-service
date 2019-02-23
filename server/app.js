@@ -14,11 +14,13 @@ const upload = multer({
 const constValue = require('./common/constValue');
 const request = require('./common/request');
 const ledManager = require('./common/ledManager');
+
+const config = require('./config');
+
 ledManager.init({
     path: config.ResourcePath
 });
 
-const config = require('./config');
 let runner = require('./runner');
 
 if (process.platform === "win32") {
