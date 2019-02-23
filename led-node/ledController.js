@@ -24,7 +24,9 @@ class LedController {
 
     init(nodeIndex) {
         let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
-        ledManager.init(nodeIndex);
+        ledManager.init({
+            nodeIndex: nodeIndex
+        });
         ws281x.init(ledSize);
 
         networkMgr.getServerMode(serverHost,

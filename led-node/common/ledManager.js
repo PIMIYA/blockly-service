@@ -103,11 +103,18 @@ async function jimpToLed(filePath) {
         let image = await Jimp.read(filePath);
         let tmp = [];
         image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
-            var r = this.bitmap.data[idx + 0];
-            var g = this.bitmap.data[idx + 1];
-            var b = this.bitmap.data[idx + 2];
-            // console.log(`${x}, ${y}: ${r} ${g} ${b}`);
-            tmp.push(utils.rgb2Hex(r, g, b));
+            let r = this.bitmap.data[idx + 0];
+            let g = this.bitmap.data[idx + 1];
+            let b = this.bitmap.data[idx + 2];
+
+            // 實作 rgb(240, 240, 240) #f0f0f0 不更換顏色
+            // let hexClr = (r == constValue.Colors.NO_CHANGE_RGB.r &&
+            //         g == constValue.Colors.NO_CHANGE_RGB.g &&
+            //         b == constValue.Colors.NO_CHANGE_RGB.b) ?
+            //     constValue.Colors.NO_CHANGE :
+            //     utils.rgb2Hex(r, g, b);
+            let hexClr = utils.rgb2Hex(r, g, b);
+            tmp.push(hexClr);
         });
 
         led = _.chunk(tmp, constValue.TotalLedWidth);
@@ -140,6 +147,12 @@ class LedManager {
         this.runtimeLedStatus = [];
         /** @type {Array<Array<number>>} Status of buttons. 0: disable, 1: enable */
         this.buttonStatus = [];
+        /** @type {string} The folder path of resource */
+        this.resourcePath = './';
+    }
+
+    setResourcePath(path) {
+        this.resourcePath = path === undefined ? './' : path;
     }
 
     /** Reset all led and button status
@@ -159,10 +172,15 @@ class LedManager {
 
     /**
      * Set the Index of node server.
-     * @param {number} nodeIndex Index of node server. Set null if is main server.
+     * @param {Object} options
+     * @param {number} options.nodeIndex Index of node server. Set null if is main server.
+     * @param {string} options.path The folder path of resource.
      */
-    init(nodeIndex) {
-        this.nodeIndex = nodeIndex === undefined ? null : nodeIndex;
+    init(options) {
+        options = options || {};
+
+        this.nodeIndex = options.nodeIndex === undefined ? null : options.nodeIndex;
+        this.setResourcePath(options.path);
         this.resetAll();
     }
 
@@ -416,7 +434,8 @@ class LedManager {
         this.buttonStatus[pos.Row][pos.Column] = status;
     }
 
-    async renderImage(filePath) {
+    async renderImage(fileName) {
+        let filePath = [this.resourcePath, fileName].join('/');
         let ledData = await jimpToLed(filePath);
         if (ledData != null) {
             this.setRawLedStatus(ledData);

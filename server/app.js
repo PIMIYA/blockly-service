@@ -14,7 +14,9 @@ const upload = multer({
 const constValue = require('./common/constValue');
 const request = require('./common/request');
 const ledManager = require('./common/ledManager');
-ledManager.init();
+ledManager.init({
+    path: config.ResourcePath
+});
 
 const config = require('./config');
 let runner = require('./runner');
