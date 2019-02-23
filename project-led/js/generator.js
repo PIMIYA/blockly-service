@@ -126,3 +126,21 @@ Blockly.JavaScript['render_image'] = function (block) {
     var code = 'ledManager.renderImage(' + value_filename + ');\n';
     return code;
 };
+
+Blockly.JavaScript['render_image_set'] = function (block) {
+    var value_prefix = Blockly.JavaScript.valueToCode(block, 'prefix', Blockly.JavaScript.ORDER_ATOMIC);
+    var dropdown_imageoptions = block.getFieldValue('imageOptions');
+    var value_imgindex = Blockly.JavaScript.valueToCode(block, 'imgIndex', Blockly.JavaScript.ORDER_ATOMIC);
+    var number_start = block.getFieldValue('start');
+    var number_end = block.getFieldValue('end');
+
+    var count = number_end - number_start + 1;
+    var filename = [value_prefix, value_imgindex, '\'' + dropdown_imageoptions + '\''].join('+');
+    var code = value_imgindex + ' = ' + value_imgindex + ' == undefined ?\n';
+    code += '   ' + number_start + ' :\n';
+    code += '   ' + value_imgindex + ';\n';
+    code += value_imgindex + ' = ' + value_imgindex + ' % ' + count + ';\n';
+    code += 'ledManager.renderImage(' + filename + ');\n';
+    code += value_imgindex + '++;\n';
+    return code;
+};

@@ -232,3 +232,32 @@ Blockly.Blocks['render_image'] = {
         this.setHelpUrl("");
     }
 };
+
+Blockly.Blocks['render_image_set'] = {
+    init: function () {
+        this.appendValueInput("prefix")
+            .setCheck("String")
+            .appendField("Render")
+            .appendField(" 圖集");
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldDropdown([
+                ["JPG", ".jpg"],
+                ["PNG", ".png"]
+            ]), "imageOptions")
+            .appendField("編號 = ");
+        this.appendValueInput("imgIndex")
+            .setCheck("Number");
+        this.appendDummyInput()
+            .appendField("(")
+            .appendField(new Blockly.FieldNumber(0, 0), "start")
+            .appendField("~")
+            .appendField(new Blockly.FieldNumber(0, 0), "end")
+            .appendField(")");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+};
