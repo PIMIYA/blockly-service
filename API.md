@@ -115,3 +115,11 @@ Response: HTTP Status.
 ```latex
 Response: HTTP Status.
 ```
+
+**GET `/api/button/:x/:y`** Trigger (x, y) button.
+
+觸發 x, y 的按鈕
+
+```latex
+Response: HTTP Status.
+```

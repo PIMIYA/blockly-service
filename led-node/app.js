@@ -62,7 +62,6 @@ app.delete('/api/led', function (req, res) {
     res.end();
 });
 
-// FOR TEST #####
 app.get('/api/button/:x/:y', function (req, res) {
     let x = parseInt(req.params.x, null);
     let y = parseInt(req.params.y, null);
