@@ -101,6 +101,11 @@ Code.onUpdated = function (event) {
     prettyPrint();
 };
 
+Code.saveToFile = function () {
+    console.log('saveToFile');
+    
+};
+
 /**
  * User's language (e.g. "en").
  * @type {string}
@@ -108,8 +113,7 @@ Code.onUpdated = function (event) {
 Code.LANG = Code.getLang();
 
 Code.init = function () {
-    // document.getElementById('playButton').addEventListener('click', Code.executeBlockCode);
-    // document.getElementById('saveButton').addEventListener('click', Code.saveToFile);
+    document.getElementById('saveButton').addEventListener('click', Code.saveToFile);
     // document.getElementById('saveBlockButton').addEventListener('click', Code.saveBlocksToXml);
 
     Code.initLanguage();

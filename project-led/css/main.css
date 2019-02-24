@@ -61,54 +61,12 @@
     background-color: rgba(0, 0, 0, .2);
 }
 
-.load-button {
-    position: absolute;
-    bottom: 100px;
-    left: 20px;
-    border-radius: 100%;
-    color: white;
-    background-color: purple;
-    cursor: pointer;
-    font-size: 56px
-}
-
-.load-button:hover {
-    box-shadow: 0 2px 2px rgba(0, 0, 0, .2), 0 6px 10px rgba(0, 0, 0, .3);
-    transition: box-shadow .3s ease-in-out;
-}
-
-.saveblock-button {
-    position: absolute;
-    bottom: 24px;
-    left: 20px;
-    border-radius: 100%;
-    color: white;
-    background-color: green;
-    cursor: pointer;
-    font-size: 56px
-}
-
-.saveblock-button:hover {
-    box-shadow: 0 2px 2px rgba(0, 0, 0, .2), 0 6px 10px rgba(0, 0, 0, .3);
-    transition: box-shadow .3s ease-in-out;
-}
-
-.save-button {
-    position: absolute;
-    bottom: 24px;
-    right: 200px;
-    border-radius: 100%;
-    background-color: yellow;
-    cursor: pointer;
-    font-size: 56px
-}
-
 .save-button:hover {
     box-shadow: 0 2px 2px rgba(0, 0, 0, .2), 0 6px 10px rgba(0, 0, 0, .3);
     transition: box-shadow .3s ease-in-out;
 }
 
-.play-button {
+.save-button {
     position: absolute;
     bottom: 24px;
     right: 24px;
@@ -125,7 +83,7 @@
     cursor: pointer;
 }
 
-.play-button:hover {
+.save-button:hover {
     box-shadow: 0 2px 2px rgba(0, 0, 0, .2), 0 6px 10px rgba(0, 0, 0, .3);
     transition: box-shadow .3s ease-in-out;
 }
