@@ -56,7 +56,7 @@ app.post('/api/led', function (req, res) {
     res.end();
 });
 
-app.delete('/led', function (req, res) {
+app.delete('/api/led', function (req, res) {
     ledController.reset();
 
     res.end();

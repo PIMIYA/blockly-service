@@ -160,6 +160,7 @@ app.get('/api/status', function (req, res) {
 
 app.post('/api/broadcast/led', function (req, res) {
     // let ledStatus = utils.iterateLed(constValue.TotalLedWidth, constValue.TotalLedHeight);
+
     let data = req.body.led;
     if (data) {
         ledManager.setRawLedStatus(data);
@@ -169,7 +170,7 @@ app.post('/api/broadcast/led', function (req, res) {
 
     config.Nodes.forEach(node => {
         try {
-            let url = `${node.Host}/led`;
+            let url = `${node.Host}/api/led`;
             request.Post(url, {
                 payload: data
             }, (error, response) => {
@@ -188,27 +189,35 @@ app.post('/api/broadcast/led', function (req, res) {
 });
 
 app.post('/api/broadcast/button', function (req, res) {
-    let data = ledManager.getButtonStatus();
+    // let data = ledManager.getButtonStatus();
 
-    config.Nodes.forEach(node => {
-        try {
-            let url = `${node.Host}/button`;
-            request.Post(url, {
-                payload: data
-            }, (error, response) => {
-                if (error) {
-                    console.error(error.message);
-                    return;
-                }
-                // console.log(response.data);
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    });
+    // config.Nodes.forEach(node => {
+    //     try {
+    //         let url = `${node.Host}/api/button`;
+    //         request.Post(url, {
+    //             payload: data
+    //         }, (error, response) => {
+    //             if (error) {
+    //                 console.error(error.message);
+    //                 return;
+    //             }
+    //             // console.log(response.data);
+    //         });
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // });
 
     res.end();
 });
+
+app.route('/api/power')
+    .post(function (req, res) {
+        console.log('power on');ƒ
+    })
+    .delete(function (req, res) {
+        console.log('power off');
+    });
 
 // FOR TEST #####
 app.get('/api/led/:nodeIndex/:boardIndex', function (req, res) {
