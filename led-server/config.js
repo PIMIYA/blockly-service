@@ -35,7 +35,7 @@ for (let i = 0; i < constValue.NodeCount; i++) {
     }
 
     // TODO: TEST
-    node.Host = 'http://192.168.1.114:3000';
+    node.Host = 'http://192.168.1.85:3000';
 
     config.Nodes.push(node);
 }

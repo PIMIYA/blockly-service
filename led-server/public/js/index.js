@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    
+    //var intervalID = window.setInterval(refreshLed, 1000);
+
     function refreshLed() {
         let $palette = $('#ledStatus #grid');
         $palette.empty();
@@ -11,7 +14,7 @@ $(document).ready(function () {
                     row.forEach(element => {
                         let $div = $('<span>')
                             .css('background-color', element)
-                            .text(element);
+                            //.text(element);
                         $palette.append($div);
                     });
                     $palette.append($('<br/>'));
@@ -40,6 +43,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
     $('#ledStatus #btnRefresh').click(() => {
         refreshLed();
