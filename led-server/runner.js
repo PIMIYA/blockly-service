@@ -87,7 +87,9 @@ class Runner {
 
     start() {
         console.log('Start loop');
-        _intervalId = setInterval(this.loop, INTERVAL);
+        _intervalId = setInterval(() => {
+            this.loop();
+        }, INTERVAL);
     }
 
     stop() {
