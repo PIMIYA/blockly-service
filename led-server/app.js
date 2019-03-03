@@ -130,7 +130,7 @@ app.route('/api/led')
         res.end();
     })
     .delete(function (req, res) {
-        runner.resetAll();
+        runner.sendResetToNode();
 
         res.end();
     });
@@ -211,12 +211,19 @@ app.post('/api/broadcast/button', function (req, res) {
     res.end();
 });
 
-app.route('/api/power')
+app.route('/api/manage')
     .post(function (req, res) {
-        console.log('power on');ƒ
-    })
-    .delete(function (req, res) {
-        console.log('power off');
+        let action = req.body.action;
+        switch (action) {
+            case 0: // stop
+                runner.stop();
+                break;
+            case 1: // start
+                runner.start();
+                break;
+        }
+
+        res.end();
     });
 
 // FOR TEST #####

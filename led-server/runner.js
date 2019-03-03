@@ -19,6 +19,8 @@ const NODES = config.Nodes;
 let _intervalId = null;
 let _locked = false;
 let _currentTask = null;
+let _lastLedStatus = null;
+let _lastButtonStatus = null;
 
 let _art = {
     index: 0,
@@ -47,6 +49,11 @@ class Runner {
         _currentTask(elapsed);
         this.lastUpdateTime = Date.now();
         _locked = false;
+
+        // fix the led to reset
+        if (_intervalId == null) {
+            this.sendResetToNode();
+        }
     }
 
     runFreeMode(elapsed) {
@@ -86,20 +93,42 @@ class Runner {
     }
 
     start() {
-        console.log('Start loop');
-        _intervalId = setInterval(() => {
-            this.loop();
-        }, INTERVAL);
+        let self = this;
+        if (!_intervalId) {
+            if (_lastLedStatus != null) {
+                ledManager.setRawLedStatus(_lastLedStatus);
+            }
+            if (_lastButtonStatus != null) {
+                ledManager.setAllButtonStatus(_lastButtonStatus);
+            }
+
+            _intervalId = setInterval(() => {
+                self.loop();
+            }, INTERVAL);
+
+            console.log('Loop started');
+        } else {
+            console.log('The loop is already running');
+        }
     }
 
     stop() {
         if (_intervalId) {
+            _lastLedStatus = ledManager.getRawLedStatus();
+            _lastButtonStatus = ledManager.getAllButtonStatus();
+            ledManager.resetAll();
+
             clearInterval(_intervalId);
+            _intervalId = null;
+            this.sendResetToNode();
+
+            console.log('Loop stopped');
+        } else {
+            console.log('The loop is already stopped');
         }
-        console.log('Stop loop');
     }
 
-    resetAll() {
+    sendResetToNode() {
         NODES.forEach(node => {
             try {
                 networkMrg.ledReset(node.Host);

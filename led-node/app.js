@@ -49,18 +49,18 @@ app.route('/api/mode')
         res.end();
     });
 
-app.post('/api/led', function (req, res) {
-    let payload = req.body.payload;
-    ledController.updateLocalLeds(payload);
 
-    res.end();
-});
+app.route('api/led')
+    .post(function (req, res) {
+        let payload = req.body.payload;
+        ledController.updateLocalLeds(payload);
 
-app.delete('/api/led', function (req, res) {
-    ledController.reset();
+        res.end();
+    }).delete(function (req, res) {
+        ledController.reset();
 
-    res.end();
-});
+        res.end();
+    });
 
 app.get('/api/button/:x/:y', function (req, res) {
     let x = parseInt(req.params.x, null);

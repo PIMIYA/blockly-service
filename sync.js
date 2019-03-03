@@ -24,7 +24,7 @@ try {
 
     let _srcDir = path.join(__dirname, 'common');
     let _destDirs = [
-        path.join(__dirname, 'server', 'common'),
+        path.join(__dirname, 'led-server', 'common'),
         path.join(__dirname, 'led-node', 'common')
     ]
 
