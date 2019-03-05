@@ -11,6 +11,11 @@ const networkMgr = require('./networkManager');
 
 const serverHost = config.ServerHost;
 
+//啟動按扭btn.py
+const exec = require('child_process').exec;
+const kill = require('tree-kill');
+var sref = null;
+
 function ledDraw(led) {
     let renderData = utils.hexToUint32Array(_.flatten(led));
     ws281x.render(renderData);
@@ -20,7 +25,7 @@ function ledDraw(led) {
  * 使用前一定要呼叫 init
  */
 class LedController {
-    constructor() {}
+    constructor() { }
 
     init(nodeIndex) {
         let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
@@ -137,6 +142,26 @@ class LedController {
 
         networkMgr.triggerButton(serverHost, pos.Row, pos.Column);
     }
+
+    //執行按扭btn.py
+    exec_btn() {
+        if (sref == null) {
+            var call = 'python ./btn4pi/btn.py';
+            sref = exec(call);
+        }
+    }
+
+    //停止按扭btn.py
+    stop_btn() {
+        if (sref && sref.pid > 0) {
+            kill(sref.pid, 'SIGTERM', function () {
+                myLog('Killed btn process with PID: ', sref.pid);
+                sref = null;
+            });
+        }
+    }
+
+
 }
 
 module.exports = new LedController();
