@@ -9,9 +9,9 @@ const BOARD_ROW = 1;
 // 每個 node 上的 board column
 const BOARD_COLUMN = 1;
 // 每個 board led 寬
-const BOARD_LED_WIDTH = 78;
+const BOARD_LED_WIDTH = 6;
 // 每個 board led 高
-const BOARD_LED_HEIGHT = 18;
+const BOARD_LED_HEIGHT = 6;
 
 module.exports = {
     /** @type {Color} */

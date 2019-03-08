@@ -25,9 +25,9 @@
             <div class="col-12" id="mode_toggle" style="display:none;">
               <div class="row">        
                 <div class="col-6">
-                    <div><svg width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="F-mode">Free Mode</span></div>
-                    <div><svg width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="A-mode">Artistic Mode</span></div>
-                    <div><svg width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="E-mode">Educational Mode</span></div>
+                    <div id="M1click"><input class="hiddenBtn" id="M1" type='button' value='0'><svg class="cursor" width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="F-mode">Free Mode</span></div>
+                    <div id="M2click"><input class="hiddenBtn" id="M2" type='button' value='1'><svg width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="A-mode">Artistic Mode</span></div>
+                    <div id="M3click"><input class="hiddenBtn" id="M3" type='button' value='2'><svg width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="E-mode">Educational Mode</span></div>
                 </div>
                 <div class="col-6">
                     <div class="float-right"><svg width="20" height="30"><rect x="0" y="10" width="10" height="10"/></svg><span id="reset">Reset</span></div>
@@ -36,18 +36,19 @@
             </div>
 
             <div id="ledStatus" style="display:none;">
-                <div class="row col-12">
+                <!--<div class="row col-12">
                     <div class="col-12">
                             <button id="btnRefresh">Refresh</button>
                     </div>
-                </div>
+                </div>-->
                 <div class="row">
                     <div id="grid"></div>
                 </div>
             </div>
 
             <div class="col-12" id="cosole-area">
-                <div id="console_text"><span id="power_toggle" onclick="togglePower()"><img src="./assets/power-off.svg" alt="Power Off" id="power_off" style="display:inline-block;"><img src="./assets/power-on.svg" alt="Power On" id="power_on"></span> PUSH -- <span id="power_off_txt" style="display:inline-block;">Power Off</span><span id="power_on_txt">Power On</span><span class="float-right">Automation : Turn On<span id="OnTime"> 06:00 </span> / <span> Turn Off </span><span id="OffTime"> 18:00 </span> / <span id="StartDate"> Mon. </span> to <span id="EndDate"> Fri. </span></span></div>
+                <div id="console_text"><span id="power_toggle" onclick="togglePower()"><img src="./assets/power-off.svg" alt="Power Off" id="power_off" style="display:inline-block;"><img src="./assets/power-on.svg" alt="Power On" id="power_on"></span> PUSH -- <span id="power_off_txt" style="display:inline-block;">Power Off</span><span id="power_on_txt">Power On</span><span><label for="file-upload" class="custom-file-upload" id="uploadBtn" style="display:none;">
+                    File Name</label><input id="file-upload" type="file" /></span><span class="float-right">Automation : Turn On<span id="OnTime"> 06:00 </span> / <span> Turn Off </span><span id="OffTime"> 18:00 </span> / <span id="StartDate"> Mon. </span> to <span id="EndDate"> Fri. </span></span></div>
             </div>
         </div>        
     </div>
@@ -62,6 +63,8 @@
         var logo = document.getElementById("logo");
         var mode_toggle = document.getElementById("mode_toggle");
         var ledStatus = document.getElementById("ledStatus");
+        var uploadBtn = document.getElementById("uploadBtn");
+
         if (power_off.style.display === "inline-block") {
             power_on.style.display = "inline-block";
             power_off.style.display = "none";
@@ -70,6 +73,7 @@
             logo.style.display = "none";
             mode_toggle.style.display = "block";
             ledStatus.style.display = "block";
+            uploadBtn.style.display = "inline-block";
         } else {
            power_on.style.display = "none";
            power_off.style.display = "inline-block";
@@ -78,6 +82,7 @@
            logo.style.display = "block";
            mode_toggle.style.display = "none";
            ledStatus.style.display = "none";
+           uploadBtn.style.display = "none";
         }
     }
 </script>
