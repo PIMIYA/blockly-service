@@ -1,10 +1,12 @@
 const express = require('express');
 const http = require('http');
 
+const constValue = require('./common/constValue');
 const config = require('./config');
 let port = process.env.Port || config.Port || 3000;
 let nodeIndex = process.env.Index || config.NodeIndex;
 let serverHost = process.env.ServerHost || config.ServerHost;
+constValue.setNodeCount(config.NodeRow, config.NodeColumn);
 config.SetIndex(nodeIndex);
 config.SetServerHost(serverHost);
 

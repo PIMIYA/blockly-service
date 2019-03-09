@@ -16,6 +16,7 @@ const request = require('./common/request');
 const ledManager = require('./common/ledManager');
 
 const config = require('./config');
+constValue.setNodeCount(config.NodeRow, config.NodeColumn);
 
 ledManager.init({
     path: config.ResourcePath

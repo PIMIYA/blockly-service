@@ -60,9 +60,10 @@ module.exports = {
      * @param {number} column Node count of column.
      */
     setNodeCount: function (row, column) {
-        this.NodeColumn = column;
-        this.NodeRow = row;
-        this.NodeCount = row * column;
+        if (column) this.NodeColumn = column;
+        if (row) this.NodeRow = row;
+
+        this.NodeCount = this.NodeColumn * this.NodeRow;
         this.refreshTotalCount();
     },
 
@@ -74,10 +75,10 @@ module.exports = {
     setBoardCount: function (row, column) {
         this.BoardColumn = column;
         this.BoardRow = row;
-        this.BoardCount = row * column;
+        this.BoardCount = this.BoardColumn * this.BoardRow;
 
-        this.NodeLedWidth = this.BoardLedWidth * column;
-        this.NodeLedHeight = this.BoardLedHeight * row;
+        this.NodeLedWidth = this.BoardLedWidth * this.BoardColumn;
+        this.NodeLedHeight = this.BoardLedHeight * this.BoardRow;
 
         this.refreshTotalCount();
     },

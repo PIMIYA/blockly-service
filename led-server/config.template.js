@@ -37,4 +37,9 @@ for (let i = 0; i < constValue.NodeCount; i++) {
     config.Nodes.push(node);
 }
 
+/** @type {number} Row number of node. */
+config.NodeRow = null;
+/** @type {number} Column number of node. */
+config.NodeColumn = null;
+
 module.exports = config;

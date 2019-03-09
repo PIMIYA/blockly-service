@@ -20,6 +20,11 @@ config.Port = 3000;
 /** @type {string} Host of server. */
 config.ServerHost = 'http://192.168.1.99:3000';
 
+/** @type {number} Row number of node. */
+config.NodeRow = null;
+/** @type {number} Column number of node. */
+config.NodeColumn = null;
+
 /** @type {number[]} Boards index on node. */
 config.BoardsIndex = [];
 let idx = 0;

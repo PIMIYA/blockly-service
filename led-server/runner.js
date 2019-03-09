@@ -143,6 +143,7 @@ class Runner {
         ledManager.resetAll();
         NODES.forEach(node => {
             try {
+                // console.log(`sendResetToNode host: ${node.Host}`);
                 networkMrg.ledReset(node.Host);
             } catch (error) {
                 console.error(error);
@@ -153,6 +154,7 @@ class Runner {
     sendModeToNode(mode) {
         NODES.forEach(node => {
             try {
+                // console.log(`sendModeToNode host: ${node.Host}`);
                 networkMrg.changeMode(node.Host, mode);
             } catch (error) {
                 console.error(error);
@@ -227,7 +229,7 @@ class Runner {
                 _currentTask = this.runBlockyMode;
                 _locked = false;
                 break;
-                
+
             default:
                 _currentTask = null;
                 console.error(`Set mode failed. There is no mode: ${mode}`);
