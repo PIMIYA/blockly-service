@@ -15,8 +15,7 @@ try {
                 recursive: true
             }, (err) => {
                 if (err) throw err;
-
-                fs.copyFileSync(fileName, destPath, fs.constants.COPYFILE_FICLONE);
+                fs.copyFileSync(fileName, destPath);
             });
 
         });
