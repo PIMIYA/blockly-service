@@ -18,7 +18,7 @@ config.NodeIndex = null;
 /** @type {number} Port of server listening. */
 config.Port = 3000;
 /** @type {string} Host of server. */
-config.ServerHost = 'http://localhost:3000';
+config.ServerHost = 'http://192.168.1.99:3000';
 
 /** @type {number[]} Boards index on node. */
 config.BoardsIndex = [];
