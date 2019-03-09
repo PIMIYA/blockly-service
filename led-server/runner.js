@@ -227,7 +227,7 @@ class Runner {
                 _currentTask = this.runBlockyMode;
                 _locked = false;
                 break;
-
+                
             default:
                 _currentTask = null;
                 console.error(`Set mode failed. There is no mode: ${mode}`);
