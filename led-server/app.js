@@ -125,7 +125,9 @@ app.route('/api/led')
         let y = req.body.y;
         let color = req.body.color;
         // console.log(x, y, color);
-        ledManager.setLed(x, y, color);
+
+        runner.setLed(x, y, color);
+        // ledManager.setLed(x, y, color);
 
         res.end();
     })
@@ -143,9 +145,10 @@ app.route('/api/button')
         let x = req.body.x;
         let y = req.body.y;
 
-        let status = ledManager.getButtonStatus(x, y);
-        let changeTo = status == 1 ? 0 : 1;
-        ledManager.setButtonStatus(x, y, changeTo);
+        runner.triggerButton(x, y);
+        // let status = ledManager.getButtonStatus(x, y);
+        // let changeTo = status == 1 ? 0 : 1;
+        // ledManager.setButtonStatus(x, y, changeTo);
 
         res.end();
     });

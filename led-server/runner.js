@@ -16,6 +16,9 @@ const INTERVAL = config.RunnerInterval || 100;
 /** @type {LedNode[]} */
 const NODES = config.Nodes;
 
+// TODO use config or get all file under folder
+const MAX_ART_IMAGE = 6;
+
 let _intervalId = null;
 let _locked = false;
 let _currentTask = null;
@@ -56,6 +59,11 @@ class Runner {
         }
     }
 
+    runNoneMode(elapsed) {
+        // console.log('None mode running...');
+        // do nothing...
+    }
+
     runFreeMode(elapsed) {
         // console.log('Free mode running...');
         // do nothing...
@@ -66,14 +74,8 @@ class Runner {
 
         /** @type {Array<Array<string>>} */
         let currentData = _art.data[_art.index];
-        NODES.forEach(node => {
-            try {
-                ledManager.setRawLedStatus(currentData);
-                networkMrg.ledStatus(node.Host, currentData);
-            } catch (error) {
-                console.error(error);
-            }
-        });
+        ledManager.setRawLedStatus(currentData);
+        this.sendLedStatusToNode(currentData);
 
         _art.index = ++_art.index % _art.length;
     }
@@ -83,13 +85,7 @@ class Runner {
 
         runtimeValue.addElapsed(elapsed);
         logicer.run();
-        NODES.forEach(node => {
-            try {
-                networkMrg.ledStatus(node.Host, ledManager.getRawLedStatus());
-            } catch (error) {
-                console.error(error);
-            }
-        });
+        this.sendLedStatusToNode(ledManager.getRawLedStatus());
     }
 
     start() {
@@ -101,6 +97,9 @@ class Runner {
             if (_lastButtonStatus != null) {
                 ledManager.setAllButtonStatus(_lastButtonStatus);
             }
+
+            this.sendLedStatusToNode(ledManager.getRawLedStatus());
+            this.sendModeToNode(ledManager.getMode());
 
             _intervalId = setInterval(() => {
                 self.loop();
@@ -120,6 +119,8 @@ class Runner {
 
             clearInterval(_intervalId);
             _intervalId = null;
+
+            this.sendModeToNode(modeEnum.NONE);
             this.sendResetToNode();
 
             console.log('Loop stopped');
@@ -128,7 +129,18 @@ class Runner {
         }
     }
 
+    sendLedStatusToNode(ledData) {
+        NODES.forEach(node => {
+            try {
+                networkMrg.ledStatus(node.Host, ledData);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+
     sendResetToNode() {
+        ledManager.resetAll();
         NODES.forEach(node => {
             try {
                 networkMrg.ledReset(node.Host);
@@ -136,6 +148,30 @@ class Runner {
                 console.error(error);
             }
         });
+    }
+
+    sendModeToNode(mode) {
+        NODES.forEach(node => {
+            try {
+                networkMrg.changeMode(node.Host, mode);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    setLed(x, y, color) {
+        if (_intervalId == null) return;
+
+        ledManager.setLed(x, y, color);
+    }
+
+    triggerButton(x, y) {
+        if (_intervalId == null) return;
+
+        let status = ledManager.getButtonStatus(x, y);
+        let changeTo = status == 1 ? 0 : 1;
+        ledManager.setButtonStatus(x, y, changeTo);
     }
 
     changeMode(mode, options) {
@@ -146,16 +182,16 @@ class Runner {
 
         ledManager.resetAll();
         if (options.sendToNode) {
-            NODES.forEach(node => {
-                try {
-                    networkMrg.changeMode(node.Host, mode);
-                } catch (error) {
-                    console.error(error);
-                }
-            });
+            this.sendModeToNode(mode);
         }
 
         switch (mode) {
+            case modeEnum.NONE:
+                console.log('Change to None mode.');
+                _currentTask = this.runNoneMode;
+                _locked = false;
+                break;
+
             case modeEnum.FREE:
                 console.log('Change to Free mode.');
                 _currentTask = this.runFreeMode;
@@ -166,7 +202,7 @@ class Runner {
                 console.log('Change to Art mode.');
 
                 let loadImages = [];
-                for (let i = 0; i < 6; i++) {
+                for (let i = 0; i < MAX_ART_IMAGE; i++) {
                     let filePath = `./res/images/full-${i}.jpg`;
                     loadImages.push(Jimp.read(filePath));
                 }
