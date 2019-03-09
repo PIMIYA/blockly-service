@@ -44,6 +44,7 @@ class LedController {
     }
 
     onButtonClickEvent(x, y) {
+        // console.log(ledManager.mode);
         switch (ledManager.mode) {
             case modeEnum.FREE:
                 this.nextLed(x, y);
@@ -153,7 +154,14 @@ class LedController {
     exec_btn() {
         if (sref == null) {
             var call = 'python ./btn4pi/btn.py';
-            sref = exec(call);
+            sref = exec(call, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+
+                console.log(stdout);
+            });
         }
     }
 
