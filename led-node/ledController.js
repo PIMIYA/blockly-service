@@ -46,6 +46,10 @@ class LedController {
             case modeEnum.BLOCKLY:
                 this.triggerButton(x, y);
                 break;
+
+            case modeEnum.NONE:
+                // do nothing
+                break;
             default:
                 break;
         }
