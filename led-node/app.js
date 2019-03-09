@@ -9,7 +9,7 @@ config.SetIndex(nodeIndex);
 config.SetServerHost(serverHost);
 
 const ledController = require('./ledController');
-ledController.init();
+ledController.init(nodeIndex);
 
 if (process.platform === "win32") {
     var rl = require("readline").createInterface({

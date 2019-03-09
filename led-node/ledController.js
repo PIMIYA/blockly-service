@@ -25,7 +25,7 @@ function ledDraw(led) {
  * 使用前一定要呼叫 init
  */
 class LedController {
-    constructor() { }
+    constructor() {}
 
     init(nodeIndex) {
         let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
@@ -39,6 +39,8 @@ class LedController {
                 this.setMode(response.mode);
             }
         );
+
+        this.exec_btn();
     }
 
     onButtonClickEvent(x, y) {
