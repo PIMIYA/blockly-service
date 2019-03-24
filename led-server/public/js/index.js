@@ -1,9 +1,10 @@
 $(document).ready(function () {
 
-    var RectF = document.getElementById("RectF");
-    var RectA = document.getElementById("RectA");
-    var RectE = document.getElementById("RectE");
-    var RectR = document.getElementById("RectR");
+    let RectF = document.getElementById("RectF");
+    let RectA = document.getElementById("RectA");
+    let RectE = document.getElementById("RectE");
+    let RectR = document.getElementById("RectR");
+    let chooseBtn = document.getElementById("chooseBtn");
 
     /*** get led status from server ***/
     function refreshLed() {
@@ -37,8 +38,8 @@ $(document).ready(function () {
 
     /*** Click on Free Mode ***/
     $('#M1click').on('click', function () {
-        var status = document.getElementById("M1").value;
-        var data = {
+        let status = document.getElementById("M1").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
@@ -56,8 +57,8 @@ $(document).ready(function () {
 
     /*** Click on Artistic Mode ***/
     $('#M2click').on('click', function () {
-        var status = document.getElementById("M2").value;
-        var data = {
+        let status = document.getElementById("M2").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
@@ -75,8 +76,8 @@ $(document).ready(function () {
 
     /*** Click on Educational Mode ***/
     $('#M3click').on('click', function () {
-        var status = document.getElementById("M3").value;
-        var data = {
+        let status = document.getElementById("M3").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
@@ -87,15 +88,17 @@ $(document).ready(function () {
             RectE.style.fill = "black"
             RectA.style.fill = "none"
             RectF.style.fill = "none"
+            chooseBtn.style.display = "inline-block"
         } else {
             RectE.style.fill = "none"
+            chooseBtn.style.display = "none"
         }
     });
 
     /*** Click on Reset ***/
     $('#Rclick').on('click', function () {
-        var status = document.getElementById("Reset").value;
-        var data = {
+        let status = document.getElementById("Reset").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** delete led status to server ***/

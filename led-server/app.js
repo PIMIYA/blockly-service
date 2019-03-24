@@ -8,7 +8,7 @@ const reload = require('reload');
 const decache = require('decache');
 
 const upload = multer({
-    dest: 'temp/'
+    dest: './temp'
 });
 
 const constValue = require('./common/constValue');
@@ -52,15 +52,15 @@ app.get('/', function (req, res) {
 });
 
 const scriptFilePath = './scripts/logicer.js';
+
 app.post('/script', upload.single('file'), function (req, res, next) {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, scriptFilePath);
-
     if (path.extname(req.file.originalname).toLowerCase() === ".js") {
         fs.rename(tempPath, targetPath, err => {
             if (err) return handleError(err, res);
-
-            res.status(200).end();
+            
+            res.status(200).end();        
         });
     } else {
         fs.unlink(tempPath, err => {
@@ -69,6 +69,7 @@ app.post('/script', upload.single('file'), function (req, res, next) {
             res.status(403).end();
         });
     }
+
 });
 
 const imagePath = './public/images';
@@ -133,6 +134,7 @@ app.route('/api/led')
         res.end();
     })
     .delete(function (req, res) {
+        // console.log('testDelete');
         runner.sendResetToNode();
 
         res.end();
