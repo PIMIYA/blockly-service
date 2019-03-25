@@ -43,7 +43,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        //requestThings("api/mode", "POST", data);
+        requestThings("api/mode", "POST", data);
         //console.log('MODE', Status);
 
         if (RectF.style.fill === "none") {
@@ -63,7 +63,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        //requestThings("api/mode", "POST", data);
+        requestThings("api/mode", "POST", data);
 
         if (RectA.style.fill === "none") {
             RectA.style.fill = "black"
@@ -83,7 +83,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        //requestThings("api/mode", "POST", data);
+        requestThings("api/mode", "POST", data);
 
         if (RectE.style.fill === "none") {
             RectE.style.fill = "black"
@@ -96,7 +96,7 @@ $(document).ready(function () {
         }
 
         document.getElementById("file-select").onclick = function () {
-            document.getElementById("file-upload").disabled = false;
+        document.getElementById("file-upload").disabled = false;
         };
     };
 
@@ -135,7 +135,13 @@ $(document).ready(function () {
     }
 
     /*** get mode from server ***/
-    requestThings("api/mode", "get")
+    requestThings("api/mode", "get");
+
+    let status = document.getElementById("M1").value;
+    let data = {
+        "mode": parseInt(status)
+    }
+    requestThings("api/mode", "POST", data);
 
     setInterval(function () { refreshLed(); }, 400);
     
