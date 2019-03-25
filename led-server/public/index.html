@@ -20,9 +20,9 @@
 <body>
     <div class="container-fluid">
         <div class="row" id="main-area">
-            <div id="logo">PUSH</div>
+            <div id="logo" style="display:none">PUSH</div>
 
-            <div class="col-12" id="mode_toggle" style="display:none;">
+            <div class="col-12" id="mode_toggle" style="display:block;">
               <div class="row">        
                 <div class="col-6">
                     <div id="M1click"><input class="hiddenBtn" id="M1" type='button' value='0'><svg class="cursor" width="20" height="30"><rect id="RectF" x="0" y="10" width="10" height="10" style="fill:none;"/></svg><span id="F-mode">Free Mode</span></div>
@@ -36,7 +36,7 @@
               </div>
             </div>
 
-            <div id="ledStatus" style="display:none;">
+            <div id="ledStatus" style="display:block;">
                 <div class="row">
                     <div id="grid"></div>
                 </div>
@@ -45,13 +45,13 @@
             <div class="col-12" id="upload-area">
                 <form id="chooseBtn" action="/script" enctype="multipart/form-data" method="POST" style="display:none;">
                     <label for="file-upload" class="custom-file-upload" style="display:none;">Choose a file</label>
-                    <input id="file-upload" type="file" name="file" />
-                    <input type="submit" value="Upload a file" />
+                    <input id="file-select" type="file" name="file" />
+                    <input id="file-upload" type="submit" value="Upload a file" />
                 </form>
             </div>
 
             <div class="col-12" id="cosole-area">
-                <div id="console_text"><span id="power_toggle" onclick="togglePower()"><img src="./assets/power-off.svg" alt="Power Off" id="power_off" style="display:inline-block;"><img src="./assets/power-on.svg" alt="Power On" id="power_on"></span> PUSH -- <span id="power_off_txt" style="display:inline-block;">Power Off</span><span id="power_on_txt">Power On</span><span></span><span class="float-right">Automation : Turn On<span id="OnTime"> 06:00 </span> / <span> Turn Off </span><span id="OffTime"> 18:00 </span> / <span id="StartDate"> Mon. </span> to <span id="EndDate"> Fri. </span></span></div>
+                <div id="console_text"><span id="power_toggle" onclick="togglePower()"><img src="./assets/power-off.svg" alt="Power Off" id="power_off" style="display:none;"><img src="./assets/power-on.svg" alt="Power On" id="power_on" style="display:inline-block;"></span> PUSH -- <span id="power_off_txt" style="display:none;">Power Off</span><span id="power_on_txt" style="display:inline-block;">Power On</span><span></span><span class="float-right">Automation : Turn On<span id="OnTime"> 06:00 </span> / <span> Turn Off </span><span id="OffTime"> 18:00 </span> / <span id="StartDate"> Mon. </span> to <span id="EndDate"> Fri. </span></span></div>
             </div>
         </div>        
     </div>

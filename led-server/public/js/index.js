@@ -37,73 +37,79 @@ $(document).ready(function () {
     }   
 
     /*** Click on Free Mode ***/
-    $('#M1click').on('click', function () {
+    document.getElementById("M1click").onclick = function () { 
         let status = document.getElementById("M1").value;
         let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        requestThings("api/mode", "POST", data);
+        //requestThings("api/mode", "POST", data);
         //console.log('MODE', Status);
 
         if (RectF.style.fill === "none") {
             RectF.style.fill = "black"
             RectA.style.fill = "none"
             RectE.style.fill = "none"
+            chooseBtn.style.display = "none"
         } else {
-            RectF.style.fill = "none"
+
         }
-    });
+    };
 
     /*** Click on Artistic Mode ***/
-    $('#M2click').on('click', function () {
+    document.getElementById("M2click").onclick = function () {
         let status = document.getElementById("M2").value;
         let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        requestThings("api/mode", "POST", data);
-        //console.log('MODE', Status);
+        //requestThings("api/mode", "POST", data);
 
         if (RectA.style.fill === "none") {
             RectA.style.fill = "black"
             RectF.style.fill = "none"
             RectE.style.fill = "none"
+            chooseBtn.style.display = "none"
         } else {
-            RectA.style.fill = "none"
+
         }
-    });
+    };
+    
 
     /*** Click on Educational Mode ***/
-    $('#M3click').on('click', function () {
+    document.getElementById("M3click").onclick = function () {
         let status = document.getElementById("M3").value;
         let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        requestThings("api/mode", "POST", data);
-        //console.log('MODE', Status);
+        //requestThings("api/mode", "POST", data);
 
         if (RectE.style.fill === "none") {
             RectE.style.fill = "black"
             RectA.style.fill = "none"
             RectF.style.fill = "none"
             chooseBtn.style.display = "inline-block"
+            document.getElementById("file-upload").disabled = true;
         } else {
-            RectE.style.fill = "none"
-            chooseBtn.style.display = "none"
+
         }
-    });
+
+        document.getElementById("file-select").onclick = function () {
+            document.getElementById("file-upload").disabled = false;
+        };
+    };
+
+    
 
     /*** Click on Reset ***/
-    $('#Rclick').on('click', function () {
+    document.getElementById("Rclick").onclick = function () {
         let status = document.getElementById("Reset").value;
         let data = {
             "mode": parseInt(status)
         }
         /*** delete led status to server ***/
         requestThings("api/led", "DELETE", data);
-        //console.log('MODE', Status);
 
         if (RectR.style.fill === "none") {
             RectR.style.fill = "black"
@@ -113,7 +119,7 @@ $(document).ready(function () {
         } else {
             RectR.style.fill = "none"
         }
-    });
+    };
 
     function requestThings(_url, _type, _data){
         $.ajax({
