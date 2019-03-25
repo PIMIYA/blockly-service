@@ -37,9 +37,10 @@ class Runner {
     }
 
     loop() {
+        let self = this;
         if (_currentTask == null) {
             // console.warn('No task now.');
-            this.lastUpdateTime = Date.now();
+            self.lastUpdateTime = Date.now();
             return;
         }
 
@@ -48,48 +49,49 @@ class Runner {
         }
 
         _locked = true;
-        let elapsed = Date.now() - this.lastUpdateTime;
-        _currentTask(elapsed);
-        this.lastUpdateTime = Date.now();
+        let elapsed = Date.now() - self.lastUpdateTime;
+        _currentTask(self, elapsed);
+        self.lastUpdateTime = Date.now();
         _locked = false;
 
         // fix the led to reset
         if (_intervalId == null) {
-            this.sendResetToNode();
+            self.sendResetToNode();
         }
     }
 
-    runNoneMode(elapsed) {
+    runNoneMode(self, elapsed) {
         // console.log('None mode running...');
         // do nothing...
     }
 
-    runFreeMode(elapsed) {
+    runFreeMode(self, elapsed) {
         // console.log('Free mode running...');
         // do nothing...
     }
 
-    runArtMode(elapsed) {
+    runArtMode(self, elapsed) {
         // console.log('Art mode running...');
 
         /** @type {Array<Array<string>>} */
         let currentData = _art.data[_art.index];
         ledManager.setRawLedStatus(currentData);
-        this.sendLedStatusToNode(currentData);
+        self.sendLedStatusToNode(currentData);
 
         _art.index = ++_art.index % _art.length;
     }
 
-    runBlockyMode(elapsed) {
+    runBlockyMode(self, elapsed) {
         // console.log('Blockly mode running...');
 
         runtimeValue.addElapsed(elapsed);
         logicer.run();
-        this.sendLedStatusToNode(ledManager.getRawLedStatus());
+        self.sendLedStatusToNode(ledManager.getRawLedStatus());
     }
 
     start() {
         let self = this;
+
         if (!_intervalId) {
             if (_lastLedStatus != null) {
                 ledManager.setRawLedStatus(_lastLedStatus);
@@ -98,8 +100,8 @@ class Runner {
                 ledManager.setAllButtonStatus(_lastButtonStatus);
             }
 
-            this.sendLedStatusToNode(ledManager.getRawLedStatus());
-            this.sendModeToNode(ledManager.getMode());
+            self.sendLedStatusToNode(ledManager.getRawLedStatus());
+            self.sendModeToNode(ledManager.getMode());
 
             _intervalId = setInterval(() => {
                 self.loop();
@@ -112,6 +114,8 @@ class Runner {
     }
 
     stop() {
+        let self = this;
+
         if (_intervalId) {
             _lastLedStatus = ledManager.getRawLedStatus();
             _lastButtonStatus = ledManager.getAllButtonStatus();
@@ -120,8 +124,8 @@ class Runner {
             clearInterval(_intervalId);
             _intervalId = null;
 
-            this.sendModeToNode(modeEnum.NONE);
-            this.sendResetToNode();
+            self.sendModeToNode(modeEnum.NONE);
+            self.sendResetToNode();
 
             console.log('Loop stopped');
         } else {
@@ -130,6 +134,7 @@ class Runner {
     }
 
     sendLedStatusToNode(ledData) {
+        // console.log(ledData);
         NODES.forEach(node => {
             try {
                 networkMrg.ledStatus(node.Host, ledData);
