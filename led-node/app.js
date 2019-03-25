@@ -52,7 +52,7 @@ app.route('/api/mode')
     });
 
 
-app.route('api/led')
+app.route('/api/led')
     .post(function (req, res) {
         let payload = req.body.payload;
         ledController.updateLocalLeds(payload);

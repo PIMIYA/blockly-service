@@ -38,6 +38,7 @@ NodeIndex, Port 以及 ServerHost 可以透過啟動命令直接以環境變數�
 
 ```sh
 sudo pip install requests
+sudo pip install RPI.GPIO
 ```
 
 ```sh
