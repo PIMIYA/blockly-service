@@ -77,9 +77,6 @@ class LedController {
      * @param {Array<Array<string>>} ledStatus
      */
     updateLocalLeds(ledStatus) {
-        // console.log('==========');
-        // console.log('Boards:', config.BoardsIndex);
-        // console.log('==========');
         ledManager.setRawLedStatus(ledStatus);
 
         config.BoardsIndex.forEach((bIdx) => {
