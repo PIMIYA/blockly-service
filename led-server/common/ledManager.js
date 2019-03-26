@@ -443,4 +443,8 @@ class LedManager {
     }
 }
 
-module.exports = new LedManager();
+let _ledManager;
+
+if (!_ledManager) _ledManager = new LedManager();
+
+module.exports = _ledManager;
