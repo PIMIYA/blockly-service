@@ -37,6 +37,10 @@ for (let i = 0; i < constValue.NodeCount; i++) {
     config.Nodes.push(node);
 }
 
+/** @type {number} Count of image file for Art mode . */
+config.MAX_ART_IMAGE = 6;
+config.ArtImagePrefix = 'full-';
+
 /** @type {number} Row number of node. */
 config.NodeRow = null;
 /** @type {number} Column number of node. */

@@ -17,9 +17,6 @@ const INTERVAL = config.RunnerInterval || 100;
 /** @type {LedNode[]} */
 const NODES = config.Nodes;
 
-// TODO use config or get all file under folder
-const MAX_ART_IMAGE = 6;
-
 let _intervalId = null;
 let _locked = false;
 let _currentTask = null;
@@ -210,8 +207,8 @@ class Runner {
                 console.log('Change to Art mode.');
 
                 let loadImages = [];
-                for (let i = 0; i < MAX_ART_IMAGE; i++) {
-                    let filePath = `./res/images/full-${i}.jpg`;
+                for (let i = 0; i < config.MAX_ART_IMAGE; i++) {
+                    let filePath = `./res/images/${config.ArtImagePrefix}${i}.jpg`;
                     loadImages.push(Jimp.read(filePath));
                 }
 
