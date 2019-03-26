@@ -10,6 +10,7 @@ const config = require('./config');
 const logicer = require('./scripts/logicer');
 const networkMrg = require('./networkManager');
 
+const constValue = require('./common/constValue');
 const runtimeValue = require('./runtimeValue');
 
 const INTERVAL = config.RunnerInterval || 100;
@@ -85,7 +86,7 @@ class Runner {
         // console.log('Blockly mode running...');
 
         runtimeValue.addElapsed(elapsed);
-        logicer.run();
+        logicer.run(constValue, runtimeValue, ledManager);
         self.sendLedStatusToNode(ledManager.getRawLedStatus());
     }
 
