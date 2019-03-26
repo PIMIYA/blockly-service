@@ -28,7 +28,7 @@ $env:Port=1234; node app.js
 
 ### Led Node
 
-資料夾 `led-node` 為 led node，使用命令 `node app.js` 啟動 led node；
+資料夾 `led-node` 為 led node，使用命令 `sudo node app.js` 啟動 led node；
 
 啟動前確認 `led-node/config.js` 內的資訊是否正確，最主要應該 `config.NodeIndex`, `config.Port` 以及 `config.ServerHost` 要修改設定。
 
@@ -36,7 +36,7 @@ NodeIndex, Port 以及 ServerHost 可以透過啟動命令直接以環境變數�
 
 ```sh
 # mac or linux
-Index=0 Port=1234 ServerHost="http://192.168.1.123:3000" node app.js
+sudo Index=0 Port=1234 ServerHost="http://192.168.1.123:3000" node app.js
 
 # windows powershell
 $env:Index=0; $env:Port=1234; $env:ServerHost="http://192.168.1.123:3000"; node app.js
@@ -101,7 +101,10 @@ node sync.js
   - [x] Jimp.image to ledStatus
   - [x] Dictionary class for cache image file
   - [x] Cache image which was loaded.
-  - [ ] ledStatus to Jimp.image
+  - [ ] Reset api -> reset 當下 mode 的狀態
+  - [ ] power on/off api -> off 的時候燈號全關不接受任何操作
+  - [ ] (?)ledStatus to Jimp.image
+  - [ ] (?)強制 resize 不符合大小的圖片
 - Client(Node Server)
   - [x] 把 6x6 中 2, 4, 6 的陣列資料反轉， 因為 ws281x 的運作方式是 led 連續的，以下是 led 串連方式(註a) => ws281x-native 已經做好了
   - [x] API Reset ws281x
