@@ -443,6 +443,7 @@ class LedManager {
     }
 }
 
+/** @type {LedManager} */
 let _ledManager;
 
 if (!_ledManager) _ledManager = new LedManager();

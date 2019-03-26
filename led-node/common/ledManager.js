@@ -253,6 +253,7 @@ class LedManager {
      * @param {Array<Array<string>>} led 完整的 led 狀態 (2d array TotalWidth * TotalHeight)
      */
     setRawLedStatus(led) {
+        // console.log(led);
         if (this.nodeIndex === null) {
             this.rawLedStatus = mergeLed(this.rawLedStatus, led);
         } else {
@@ -443,6 +444,7 @@ class LedManager {
     }
 }
 
+/** @type {LedManager} */
 let _ledManager;
 
 if (!_ledManager) _ledManager = new LedManager();
