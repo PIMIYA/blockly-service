@@ -25,7 +25,7 @@ function ledDraw(led) {
  * 使用前一定要呼叫 init
  */
 class LedController {
-    constructor() { }
+    constructor() {}
 
     init(nodeIndex) {
         let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
@@ -39,9 +39,12 @@ class LedController {
                 this.setMode(response.mode);
             }
         );
+
+        this.exec_btn();
     }
 
     onButtonClickEvent(x, y) {
+        // console.log(ledManager.mode);
         switch (ledManager.mode) {
             case modeEnum.FREE:
                 this.nextLed(x, y);
@@ -50,6 +53,10 @@ class LedController {
                 break;
             case modeEnum.BLOCKLY:
                 this.triggerButton(x, y);
+                break;
+
+            case modeEnum.NONE:
+                // do nothing
                 break;
             default:
                 break;
@@ -147,7 +154,14 @@ class LedController {
     exec_btn() {
         if (sref == null) {
             var call = 'python ./btn4pi/btn.py';
-            sref = exec(call);
+            sref = exec(call, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+
+                console.log(stdout);
+            });
         }
     }
 

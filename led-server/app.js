@@ -8,7 +8,7 @@ const reload = require('reload');
 const decache = require('decache');
 
 const upload = multer({
-    dest: 'temp/'
+    dest: './temp'
 });
 
 const constValue = require('./common/constValue');
@@ -16,6 +16,7 @@ const request = require('./common/request');
 const ledManager = require('./common/ledManager');
 
 const config = require('./config');
+constValue.setNodeCount(config.NodeRow, config.NodeColumn);
 
 ledManager.init({
     path: config.ResourcePath
@@ -51,15 +52,15 @@ app.get('/', function (req, res) {
 });
 
 const scriptFilePath = './scripts/logicer.js';
+
 app.post('/script', upload.single('file'), function (req, res, next) {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, scriptFilePath);
-
     if (path.extname(req.file.originalname).toLowerCase() === ".js") {
         fs.rename(tempPath, targetPath, err => {
             if (err) return handleError(err, res);
-
-            res.status(200).end();
+            
+            res.status(200).end();        
         });
     } else {
         fs.unlink(tempPath, err => {
@@ -68,6 +69,7 @@ app.post('/script', upload.single('file'), function (req, res, next) {
             res.status(403).end();
         });
     }
+
 });
 
 const imagePath = './public/images';
@@ -125,12 +127,15 @@ app.route('/api/led')
         let y = req.body.y;
         let color = req.body.color;
         // console.log(x, y, color);
-        ledManager.setLed(x, y, color);
+
+        runner.setLed(x, y, color);
+        // ledManager.setLed(x, y, color);
 
         res.end();
     })
     .delete(function (req, res) {
-        runner.resetAll();
+        // console.log('testDelete');
+        runner.sendResetToNode();
 
         res.end();
     });
@@ -143,9 +148,10 @@ app.route('/api/button')
         let x = req.body.x;
         let y = req.body.y;
 
-        let status = ledManager.getButtonStatus(x, y);
-        let changeTo = status == 1 ? 0 : 1;
-        ledManager.setButtonStatus(x, y, changeTo);
+        runner.triggerButton(x, y);
+        // let status = ledManager.getButtonStatus(x, y);
+        // let changeTo = status == 1 ? 0 : 1;
+        // ledManager.setButtonStatus(x, y, changeTo);
 
         res.end();
     });
@@ -211,12 +217,19 @@ app.post('/api/broadcast/button', function (req, res) {
     res.end();
 });
 
-app.route('/api/power')
+app.route('/api/manage')
     .post(function (req, res) {
-        console.log('power on');ƒ
-    })
-    .delete(function (req, res) {
-        console.log('power off');
+        let action = req.body.action;
+        switch (action) {
+            case 0: // stop
+                runner.stop();
+                break;
+            case 1: // start
+                runner.start();
+                break;
+        }
+
+        res.end();
     });
 
 // FOR TEST #####

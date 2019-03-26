@@ -34,6 +34,13 @@ $env:Port=1234; node app.js
 
 NodeIndex, Port 以及 ServerHost 可以透過啟動命令直接以環境變數的方式給予修改
 
+**NOTE** `led-node` 會同時啟動 python 撰寫的 `按鈕事件` 服務，所以需要在 `led-node` 底下安裝必要的 pip 套件。
+
+```sh
+sudo pip install requests
+sudo pip install RPI.GPIO
+```
+
 ```sh
 # mac or linux
 sudo Index=0 Port=1234 ServerHost="http://192.168.1.123:3000" node app.js

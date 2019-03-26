@@ -1,15 +1,17 @@
 const express = require('express');
 const http = require('http');
 
+const constValue = require('./common/constValue');
 const config = require('./config');
 let port = process.env.Port || config.Port || 3000;
 let nodeIndex = process.env.Index || config.NodeIndex;
 let serverHost = process.env.ServerHost || config.ServerHost;
+constValue.setNodeCount(config.NodeRow, config.NodeColumn);
 config.SetIndex(nodeIndex);
 config.SetServerHost(serverHost);
 
 const ledController = require('./ledController');
-ledController.init();
+ledController.init(nodeIndex);
 
 if (process.platform === "win32") {
     var rl = require("readline").createInterface({
@@ -49,18 +51,18 @@ app.route('/api/mode')
         res.end();
     });
 
-app.post('/api/led', function (req, res) {
-    let payload = req.body.payload;
-    ledController.updateLocalLeds(payload);
 
-    res.end();
-});
+app.route('/api/led')
+    .post(function (req, res) {
+        let payload = req.body.payload;
+        ledController.updateLocalLeds(payload);
 
-app.delete('/api/led', function (req, res) {
-    ledController.reset();
+        res.end();
+    }).delete(function (req, res) {
+        ledController.reset();
 
-    res.end();
-});
+        res.end();
+    });
 
 app.get('/api/button/:x/:y', function (req, res) {
     let x = parseInt(req.params.x, null);

@@ -10,15 +10,21 @@ const config = require('./config');
 const logicer = require('./scripts/logicer');
 const networkMrg = require('./networkManager');
 
+const constValue = require('./common/constValue');
 const runtimeValue = require('./runtimeValue');
 
 const INTERVAL = config.RunnerInterval || 100;
 /** @type {LedNode[]} */
 const NODES = config.Nodes;
 
+// TODO use config or get all file under folder
+const MAX_ART_IMAGE = 6;
+
 let _intervalId = null;
 let _locked = false;
 let _currentTask = null;
+let _lastLedStatus = null;
+let _lastButtonStatus = null;
 
 let _art = {
     index: 0,
@@ -32,9 +38,10 @@ class Runner {
     }
 
     loop() {
+        let self = this;
         if (_currentTask == null) {
             // console.warn('No task now.');
-            this.lastUpdateTime = Date.now();
+            self.lastUpdateTime = Date.now();
             return;
         }
 
@@ -43,68 +50,136 @@ class Runner {
         }
 
         _locked = true;
-        let elapsed = Date.now() - this.lastUpdateTime;
-        _currentTask(elapsed);
-        this.lastUpdateTime = Date.now();
+        let elapsed = Date.now() - self.lastUpdateTime;
+        _currentTask(self, elapsed);
+        self.lastUpdateTime = Date.now();
         _locked = false;
+
+        // fix the led to reset
+        if (_intervalId == null) {
+            self.sendResetToNode();
+        }
     }
 
-    runFreeMode(elapsed) {
+    runNoneMode(self, elapsed) {
+        // console.log('None mode running...');
+        // do nothing...
+    }
+
+    runFreeMode(self, elapsed) {
         // console.log('Free mode running...');
         // do nothing...
     }
 
-    runArtMode(elapsed) {
+    runArtMode(self, elapsed) {
         // console.log('Art mode running...');
 
         /** @type {Array<Array<string>>} */
         let currentData = _art.data[_art.index];
-        NODES.forEach(node => {
-            try {
-                ledManager.setRawLedStatus(currentData);
-                networkMrg.ledStatus(node.Host, currentData);
-            } catch (error) {
-                console.error(error);
-            }
-        });
+        ledManager.setRawLedStatus(currentData);
+        self.sendLedStatusToNode(currentData);
 
         _art.index = ++_art.index % _art.length;
     }
 
-    runBlockyMode(elapsed) {
+    runBlockyMode(self, elapsed) {
         // console.log('Blockly mode running...');
 
         runtimeValue.addElapsed(elapsed);
-        logicer.run();
+        logicer.run(constValue, runtimeValue, ledManager);
+        self.sendLedStatusToNode(ledManager.getRawLedStatus());
+    }
+
+    start() {
+        let self = this;
+
+        if (!_intervalId) {
+            if (_lastLedStatus != null) {
+                ledManager.setRawLedStatus(_lastLedStatus);
+            }
+            if (_lastButtonStatus != null) {
+                ledManager.setAllButtonStatus(_lastButtonStatus);
+            }
+
+            self.sendLedStatusToNode(ledManager.getRawLedStatus());
+            self.sendModeToNode(ledManager.getMode());
+
+            _intervalId = setInterval(() => {
+                self.loop();
+            }, INTERVAL);
+
+            console.log('Loop started');
+        } else {
+            console.log('The loop is already running');
+        }
+    }
+
+    stop() {
+        let self = this;
+
+        if (_intervalId) {
+            _lastLedStatus = ledManager.getRawLedStatus();
+            _lastButtonStatus = ledManager.getAllButtonStatus();
+            ledManager.resetAll();
+
+            clearInterval(_intervalId);
+            _intervalId = null;
+
+            self.sendModeToNode(modeEnum.NONE);
+            self.sendResetToNode();
+
+            console.log('Loop stopped');
+        } else {
+            console.log('The loop is already stopped');
+        }
+    }
+
+    sendLedStatusToNode(ledData) {
+        // console.log(ledData);
         NODES.forEach(node => {
             try {
-                networkMrg.ledStatus(node.Host, ledManager.getRawLedStatus());
+                networkMrg.ledStatus(node.Host, ledData);
             } catch (error) {
                 console.error(error);
             }
         });
     }
 
-    start() {
-        console.log('Start loop');
-        _intervalId = setInterval(this.loop, INTERVAL);
-    }
-
-    stop() {
-        if (_intervalId) {
-            clearInterval(_intervalId);
-        }
-        console.log('Stop loop');
-    }
-
-    resetAll() {
+    sendResetToNode() {
+        ledManager.resetAll();
         NODES.forEach(node => {
             try {
+                // console.log(`sendResetToNode host: ${node.Host}`);
                 networkMrg.ledReset(node.Host);
             } catch (error) {
                 console.error(error);
             }
         });
+    }
+
+    sendModeToNode(mode) {
+        NODES.forEach(node => {
+            try {
+                // console.log(`sendModeToNode host: ${node.Host}`);
+                networkMrg.changeMode(node.Host, mode);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    setLed(x, y, color) {
+        if (_intervalId == null) return;
+
+        ledManager.setLed(x, y, color);
+    }
+
+    triggerButton(x, y) {
+        if (_intervalId == null) return;
+
+        let status = ledManager.getButtonStatus(x, y);
+        let changeTo = status == 1 ? 0 : 1;
+        ledManager.setButtonStatus(x, y, changeTo);
     }
 
     changeMode(mode, options) {
@@ -115,16 +190,16 @@ class Runner {
 
         ledManager.resetAll();
         if (options.sendToNode) {
-            NODES.forEach(node => {
-                try {
-                    networkMrg.changeMode(node.Host, mode);
-                } catch (error) {
-                    console.error(error);
-                }
-            });
+            this.sendModeToNode(mode);
         }
 
         switch (mode) {
+            case modeEnum.NONE:
+                console.log('Change to None mode.');
+                _currentTask = this.runNoneMode;
+                _locked = false;
+                break;
+
             case modeEnum.FREE:
                 console.log('Change to Free mode.');
                 _currentTask = this.runFreeMode;
@@ -135,7 +210,7 @@ class Runner {
                 console.log('Change to Art mode.');
 
                 let loadImages = [];
-                for (let i = 0; i < 6; i++) {
+                for (let i = 0; i < MAX_ART_IMAGE; i++) {
                     let filePath = `./res/images/full-${i}.jpg`;
                     loadImages.push(Jimp.read(filePath));
                 }
@@ -160,7 +235,7 @@ class Runner {
                 _currentTask = this.runBlockyMode;
                 _locked = false;
                 break;
-                
+
             default:
                 _currentTask = null;
                 console.error(`Set mode failed. There is no mode: ${mode}`);

@@ -1,9 +1,10 @@
 $(document).ready(function () {
 
-    var RectF = document.getElementById("RectF");
-    var RectA = document.getElementById("RectA");
-    var RectE = document.getElementById("RectE");
-    var RectR = document.getElementById("RectR");
+    let RectF = document.getElementById("RectF");
+    let RectA = document.getElementById("RectA");
+    let RectE = document.getElementById("RectE");
+    let RectR = document.getElementById("RectR");
+    let chooseBtn = document.getElementById("chooseBtn");
 
     /*** get led status from server ***/
     function refreshLed() {
@@ -36,9 +37,9 @@ $(document).ready(function () {
     }   
 
     /*** Click on Free Mode ***/
-    $('#M1click').on('click', function () {
-        var status = document.getElementById("M1").value;
-        var data = {
+    document.getElementById("M1click").onclick = function () { 
+        let status = document.getElementById("M1").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
@@ -49,58 +50,66 @@ $(document).ready(function () {
             RectF.style.fill = "black"
             RectA.style.fill = "none"
             RectE.style.fill = "none"
+            chooseBtn.style.display = "none"
         } else {
-            RectF.style.fill = "none"
+
         }
-    });
+    };
 
     /*** Click on Artistic Mode ***/
-    $('#M2click').on('click', function () {
-        var status = document.getElementById("M2").value;
-        var data = {
+    document.getElementById("M2click").onclick = function () {
+        let status = document.getElementById("M2").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
         requestThings("api/mode", "POST", data);
-        //console.log('MODE', Status);
 
         if (RectA.style.fill === "none") {
             RectA.style.fill = "black"
             RectF.style.fill = "none"
             RectE.style.fill = "none"
+            chooseBtn.style.display = "none"
         } else {
-            RectA.style.fill = "none"
+
         }
-    });
+    };
+    
 
     /*** Click on Educational Mode ***/
-    $('#M3click').on('click', function () {
-        var status = document.getElementById("M3").value;
-        var data = {
+    document.getElementById("M3click").onclick = function () {
+        let status = document.getElementById("M3").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
         requestThings("api/mode", "POST", data);
-        //console.log('MODE', Status);
 
         if (RectE.style.fill === "none") {
             RectE.style.fill = "black"
             RectA.style.fill = "none"
             RectF.style.fill = "none"
+            chooseBtn.style.display = "inline-block"
+            document.getElementById("file-upload").disabled = true;
         } else {
-            RectE.style.fill = "none"
+
         }
-    });
+
+        document.getElementById("file-select").onclick = function () {
+        document.getElementById("file-upload").disabled = false;
+        };
+    };
+
+    
 
     /*** Click on Reset ***/
-    $('#Rclick').on('click', function () {
-        var status = document.getElementById("Reset").value;
-        var data = {
+    document.getElementById("Rclick").onclick = function () {
+        let status = document.getElementById("Reset").value;
+        let data = {
             "mode": parseInt(status)
         }
         /*** delete led status to server ***/
         requestThings("api/led", "DELETE", data);
-        //console.log('MODE', Status);
 
         if (RectR.style.fill === "none") {
             RectR.style.fill = "black"
@@ -110,7 +119,7 @@ $(document).ready(function () {
         } else {
             RectR.style.fill = "none"
         }
-    });
+    };
 
     function requestThings(_url, _type, _data){
         $.ajax({
@@ -126,7 +135,13 @@ $(document).ready(function () {
     }
 
     /*** get mode from server ***/
-    requestThings("api/mode", "get")
+    requestThings("api/mode", "get");
+
+    let status = document.getElementById("M1").value;
+    let data = {
+        "mode": parseInt(status)
+    }
+    requestThings("api/mode", "POST", data);
 
     setInterval(function () { refreshLed(); }, 400);
     

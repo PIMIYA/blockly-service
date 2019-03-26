@@ -399,7 +399,7 @@ class LedManager {
      * Get all buttons.
      * @return {Array<Array<number>>}
      */
-    getAllButtonStatus(buttons) {
+    getAllButtonStatus() {
         return this.buttonStatus.slice();
     }
 

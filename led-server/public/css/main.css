@@ -15,6 +15,8 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    min-width: 1280px;
+    min-height: 720px;
 }
 #cosole-area{
     display:block;
@@ -105,7 +107,7 @@ rect{
     width: 10px;
 }
 
-input[type="file"] {
+/*input[type="file"] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -114,7 +116,7 @@ input[type="file"] {
     overflow: hidden;
     clip: rect(0,0,0,0);
     border: 0;
-}
+}*/
 .custom-file-upload {
     /*border: 1px solid #ccc;*/
     display: inline-block;
@@ -136,3 +138,14 @@ input[type="file"] {
 .cursor{
     cursor: pointer;
 }
+
+#upload-area{
+    display: block;
+    max-width: 1280px;
+    height: 30px;
+    position: absolute;
+    bottom: 30px;
+    border:none;
+    font-weight: 100;
+}
+

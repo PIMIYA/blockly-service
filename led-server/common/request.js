@@ -31,16 +31,11 @@ class HttpRequest {
             });
     }
 
-    Delete(url, params, callback) {
+    Delete(url, callback) {
         let config = {};
         config.timeout = this.timeout;
 
-        if (callback == undefined) {
-            callback = params;
-            params = {};
-        }
-
-        axios.delete(url, params)
+        axios.delete(url, config)
             .then(function (response) {
                 if (callback) callback(null, response);
             })

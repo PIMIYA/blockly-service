@@ -15,8 +15,7 @@ try {
                 recursive: true
             }, (err) => {
                 if (err) throw err;
-
-                fs.copyFileSync(fileName, destPath, fs.constants.COPYFILE_FICLONE);
+                fs.copyFileSync(fileName, destPath);
             });
 
         });
@@ -24,7 +23,7 @@ try {
 
     let _srcDir = path.join(__dirname, 'common');
     let _destDirs = [
-        path.join(__dirname, 'server', 'common'),
+        path.join(__dirname, 'led-server', 'common'),
         path.join(__dirname, 'led-node', 'common')
     ]
 

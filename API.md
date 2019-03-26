@@ -93,6 +93,17 @@ Response:
 }
 ```
 
+**POST `/api/manage`** Manage the runner start/stop
+
+```latex
+Request:
+{
+  "action": {number} 0: stop, 1: start
+}
+
+Response: HTTP Status.
+```
+
 ## Node Server
 
 **POST `/api/led`** Set led.
