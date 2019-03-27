@@ -198,6 +198,23 @@ class Utils {
         }
         return _.chunk(led, constValue.TotalLedWidth);
     }
+
+    reverseOdd(rawLed) {
+        if (!_.isArray(rawLed)) {
+            return rawLed;
+        }
+
+        return _.map(rawLed, function ( /** @type {Array} */ element, /** @type {number} */ index) {
+            // console.log(index, element);
+            if (index % 2 == 0) {
+                // even
+                return element;
+            } else {
+                // odd
+                return element.reverse();
+            }
+        })
+    }
 }
 
 module.exports = new Utils();

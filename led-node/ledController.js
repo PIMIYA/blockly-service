@@ -17,6 +17,7 @@ const kill = require('tree-kill');
 var sref = null;
 
 function ledDraw(led) {
+    led = utils.reverseOdd(led);
     let renderData = utils.hexToUint32Array(_.flatten(led));
     ws281x.render(renderData);
 }
