@@ -42,8 +42,8 @@ config.MAX_ART_IMAGE = 6;
 config.ArtImagePrefix = 'full-';
 
 /** @type {number} Row number of node. */
-config.NodeRow = null;
+config.NodeRow = 3;
 /** @type {number} Column number of node. */
-config.NodeColumn = null;
+config.NodeColumn = 13;
 
 module.exports = config;
