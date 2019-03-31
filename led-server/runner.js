@@ -29,6 +29,9 @@ let _art = {
     data: [],
 };
 
+let _demoTargetIndex = null;
+let _demoCurrentIndex = null;
+
 class Runner {
     constructor() {
         this.lastUpdateTime = Date.now();
@@ -85,6 +88,34 @@ class Runner {
         runtimeValue.addElapsed(elapsed);
         logicer.run(constValue, runtimeValue, ledManager);
         self.sendLedStatusToNode(ledManager.getRawLedStatus());
+    }
+
+    runDemoMode(self, elapsed) {
+        function getNodeLed(idx, currentLed) {
+            let rowIdx = Math.floor(idx / constValue.NodeRow) % constValue.NodeRow;
+            let rowStart = rowIdx * constValue.NodeLedHeight;
+            let rowEnd = rowStart + constValue.NodeLedHeight;
+            let colIdx = idx % constValue.NodeColumn;
+            let colStart = colIdx * constValue.NodeLedWidth;
+            let colEnd = colStart + constValue.NodeLedWidth;
+            for (let r = rowStart; r < rowEnd; r++) {
+                for (let c = colStart; c < colEnd; c++) {
+                    currentLed[r][c] = constValue.Colors.WHITE;
+                }
+            }
+            return currentLed;
+        }
+
+        if (_demoTargetIndex == null) {
+            _demoCurrentIndex = _demoCurrentIndex % constValue.NodeCount;
+        } else {
+            _demoCurrentIndex = _demoTargetIndex;
+        }
+
+        let led = getNodeLed(_demoCurrentIndex, constValue.defaultLedArray());
+        ledManager.setRawLedStatus(led);
+        self.sendLedStatusToNode(led);
+        _demoCurrentIndex++;
     }
 
     start() {
@@ -233,11 +264,30 @@ class Runner {
                 _locked = false;
                 break;
 
+            case modeEnum.DEMO:
+                console.log('Change to DEMO mode.');
+                _currentTask = this.runDemoMode;
+                _locked = false;
+                break;
+
             default:
                 _currentTask = null;
                 console.error(`Set mode failed. There is no mode: ${mode}`);
                 break;
         }
+    }
+
+    setDemoNode(nodeIndex) {
+        if (nodeIndex === undefined || isNaN(nodeIndex)) {
+            nodeIndex == null;
+        }
+
+        if (nodeIndex >= constValue.NodeCount) {
+            nodeIndex = null;
+        }
+
+        _demoTargetIndex = nodeIndex;
+        _demoCurrentIndex = nodeIndex === undefined ? 0 : nodeIndex;
     }
 }
 

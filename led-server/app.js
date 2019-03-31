@@ -14,6 +14,7 @@ const upload = multer({
 const constValue = require('./common/constValue');
 const request = require('./common/request');
 const ledManager = require('./common/ledManager');
+const modeEnum = require('./common/modeEnum');
 
 const config = require('./config');
 constValue.setNodeCount(config.NodeRow, config.NodeColumn);
@@ -59,8 +60,8 @@ app.post('/script', upload.single('file'), function (req, res, next) {
     if (path.extname(req.file.originalname).toLowerCase() === ".js") {
         fs.rename(tempPath, targetPath, err => {
             if (err) return handleError(err, res);
-            
-            res.status(200).end();        
+
+            res.status(200).end();
         });
     } else {
         fs.unlink(tempPath, err => {
@@ -239,6 +240,13 @@ app.get('/api/led/:nodeIndex/:boardIndex', function (req, res) {
     console.log(nodeIndex, boardIndex);
     res.json(ledManager.getRawLedStatusByNodeIndex(nodeIndex, boardIndex));
 });
+
+app.get('/api/demo/:nodeIndex?', function (req, res) {
+    let nodeIndex = parseInt(req.params.nodeIndex);
+    nodeIndex = isNaN(nodeIndex) ? null : nodeIndex;
+    runner.changeMode(modeEnum.DEMO);
+    runner.setDemoNode(nodeIndex);
+})
 
 // API ==========
 
