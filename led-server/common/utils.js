@@ -53,7 +53,7 @@ class Utils {
         pos.BoardRow = x;
         pos.BoardColumn = y;
 
-        let nodeX = Math.floor(nodeIndex / constValue.NodeRow);
+        let nodeX = Math.floor(nodeIndex / constValue.NodeRow) % constValue.NodeRow;
         let nodeY = nodeIndex % constValue.NodeColumn;
 
         let orgX = nodeX * constValue.BoardLedHeight;
