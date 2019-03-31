@@ -258,7 +258,7 @@ class LedManager {
         } else {
             let dest = [];
 
-            let rowIdx = Math.floor(this.nodeIndex / constValue.NodeRow);
+            let rowIdx = Math.floor(this.nodeIndex / constValue.NodeRow) % constValue.NodeRow;
             let rowStart = rowIdx * constValue.NodeLedHeight;
             let rowEnd = rowStart + constValue.NodeLedHeight;
             let colIdx = this.nodeIndex % constValue.NodeColumn;
