@@ -105,6 +105,7 @@ app.route('/api/mode')
 
         ledManager.setMode(mode);
         runner.changeMode(mode);
+        runner.sendResetToNode();
 
         res.end();
     });
