@@ -47,6 +47,7 @@ app.route('/api/mode')
     .post(function (req, res) {
         let mode = req.body.mode;
         ledController.setMode(mode);
+        ledController.reset();
 
         res.end();
     });
