@@ -249,6 +249,16 @@ app.get('/api/demo/:nodeIndex?', function (req, res) {
     runner.setDemoNode(nodeIndex);
 })
 
+// ########## DEBUG INFORMATION ##########
+
+app.post('/api/debug/buttonEvent', function (req, res) {
+    let nodeIndex = req.body.nodeIndex;
+    let x = req.body.x;
+    let y = req.body.y;
+
+    console.log(`Button event: ${nodeIndex}::${x}::${y}`);
+})
+
 // API ==========
 
 let server = http.createServer(app)

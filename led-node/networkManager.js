@@ -56,6 +56,30 @@ class NetworkManager {
             if (cb) cb(response.data);
         });
     }
+
+    // ========== DEBUG information ==========
+    /**
+     *
+     * @param {number} nodeIndex Index of node
+     * @param {number} x X of board(row)
+     * @param {number} y Y of board(column)
+     * @param {function} cb Function(response) { }
+     */
+    sendButtonEvent(nodeIndex, x, y, cb) {
+        let url = `${host}/api/debug/buttonEvent`;
+        request.Post(url, {
+            nodeIndex: nodeIndex,
+            x: x,
+            y: y
+        }, (error, response) => {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+
+            if (cb) cb(response.data);
+        });
+    }
 }
 
 module.exports = new NetworkManager();
