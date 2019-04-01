@@ -203,7 +203,7 @@ class LedManager {
             return this.rawLedStatus.slice();
         }
 
-        let nodeRowIdx = Math.floor(nodeIndex / constValue.NodeRow) % constValue.NodeRow;
+        let nodeRowIdx = Math.floor(nodeIndex / constValue.NodeColumn);
         let nodeRowStart = nodeRowIdx * constValue.NodeLedHeight;
 
         let nodeColIdx = nodeIndex % constValue.NodeColumn;
@@ -258,7 +258,7 @@ class LedManager {
         } else {
             let dest = [];
 
-            let rowIdx = Math.floor(this.nodeIndex / constValue.NodeRow) % constValue.NodeRow;
+            let rowIdx = Math.floor(this.nodeIndex / constValue.NodeColumn);
             let rowStart = rowIdx * constValue.NodeLedHeight;
             let rowEnd = rowStart + constValue.NodeLedHeight;
             let colIdx = this.nodeIndex % constValue.NodeColumn;
