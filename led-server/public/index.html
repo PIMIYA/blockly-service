@@ -19,15 +19,15 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row" id="main-area">
+        <div class="row">
             <div id="logo" style="display:none">PUSH</div>
 
             <div class="col-12" id="mode_toggle" style="display:block;">
               <div class="row">        
                 <div class="col-6">
                     <div id="M1click"><input class="hiddenBtn" id="M1" type='button' value='0'><svg class="cursor" width="20" height="30"><rect id="RectF" x="0" y="10" width="10" height="10" style="fill:black;"/></svg><span id="F-mode">Free Mode</span></div>
-                    <div id="M2click"><input class="hiddenBtn" id="M2" type='button' value='1'><svg class="cursor" width="20" height="30"><rect id="RectA" x="0" y="10" width="10" height="10"/></svg><span id="A-mode">Artistic Mode</span></div>
-                    <div id="M3click"><input class="hiddenBtn" id="M3" type='button' value='2'><svg class="cursor" width="20" height="30"><rect id="RectE" x="0" y="10" width="10" height="10"/></svg><span id="E-mode">Educational Mode</span></div>
+                    <div id="M2click"><input class="hiddenBtn" id="M2" type='button' value='1'><svg class="cursor" width="20" height="30"><rect id="RectA" x="0" y="10" width="10" height="10" style="fill:none;"/></svg><span id="A-mode">Artistic Mode</span></div>
+                    <div id="M3click"><input class="hiddenBtn" id="M3" type='button' value='2'><svg class="cursor" width="20" height="30"><rect id="RectE" x="0" y="10" width="10" height="10" style="fill:none;"/></svg><span id="E-mode">Educational Mode</span></div>
        
                 </div>
                 <div class="col-6">
@@ -36,11 +36,13 @@
               </div>
             </div>
 
-            <div id="ledStatus" style="display:block;">
-                <div class="row">
-                    <div id="grid"></div>
+            <!--<div class="row">-->
+                <div class="col-12" id="myled">
+                    <div id="ledStatus" style="display:block;">
+                        <div id="grid"></div>
+                    </div>
                 </div>
-            </div>
+            <!--</div>-->
 
             <div class="col-12" id="upload-area">
                 <form id="chooseBtn" action="/script" enctype="multipart/form-data" method="POST" style="display:none;">

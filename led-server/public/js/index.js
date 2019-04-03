@@ -8,13 +8,10 @@ $(document).ready(function () {
 
     /*** get led status from server ***/
     function refreshLed() {
-        //let $palette = $('#ledStatus #grid');
-        //$palette.empty();
         $.ajax({
             url: "/api/led",
             method: 'GET',
             success: function (result) {
-                //console.log('CURRENT', result);
                 draw(result);
             }
         });
@@ -43,8 +40,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        requestThings("api/mode", "POST", data);
-        //console.log('MODE', Status);
+        //requestThings("api/mode", "POST", data);
 
         if (RectF.style.fill === "none") {
             RectF.style.fill = "black"
@@ -63,7 +59,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        requestThings("api/mode", "POST", data);
+        //requestThings("api/mode", "POST", data);
 
         if (RectA.style.fill === "none") {
             RectA.style.fill = "black"
@@ -83,7 +79,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** post mode to server ***/
-        requestThings("api/mode", "POST", data);
+        //requestThings("api/mode", "POST", data);
 
         if (RectE.style.fill === "none") {
             RectE.style.fill = "black"
@@ -109,7 +105,7 @@ $(document).ready(function () {
             "mode": parseInt(status)
         }
         /*** delete led status to server ***/
-        requestThings("api/led", "DELETE", data);
+        //requestThings("api/led", "DELETE", data);
 
         if (RectR.style.fill === "none") {
             RectR.style.fill = "black"
@@ -135,16 +131,18 @@ $(document).ready(function () {
     }
 
     /*** get mode from server ***/
-    requestThings("api/mode", "get");
+    // requestThings("api/mode", "get");
 
-    let status = document.getElementById("M1").value;
-    let data = {
-        "mode": parseInt(status)
-    }
-    requestThings("api/mode", "POST", data);
+    // let status = document.getElementById("M1").value;
+    // let data = {
+    //     "mode": parseInt(status)
+    // }
+    // requestThings("api/mode", "POST", data);
 
-    setInterval(function () { refreshLed(); }, 400);
+    //setInterval(function () { refreshLed(); }, 400);
+
+    refreshLed();
     
-    draw([]);
+     draw([]);
 
 });
