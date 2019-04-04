@@ -247,7 +247,30 @@ app.get('/api/demo/:nodeIndex?', function (req, res) {
     nodeIndex = isNaN(nodeIndex) ? null : nodeIndex;
     runner.changeMode(modeEnum.DEMO);
     runner.setDemoNode(nodeIndex);
-})
+});
+
+// ########## DEBUG INFORMATION ##########
+
+let _debug = false;
+
+app.get('/api/debug/buttonEvent', function (req, res) {
+    _debug = !_debug;
+    let state = _debug ? 'enable' : 'disable';
+    console.log(`ButtonEvent is ${state}`);
+    res.end();
+});
+
+app.post('/api/debug/buttonEvent', function (req, res) {
+    let nodeIndex = req.body.nodeIndex;
+    let x = req.body.x;
+    let y = req.body.y;
+
+    if (_debug) {
+        console.log(`Button event: ${nodeIndex}::${x}::${y}`);
+    }
+
+    res.end();
+});
 
 // API ==========
 

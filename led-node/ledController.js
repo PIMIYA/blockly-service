@@ -45,7 +45,7 @@ class LedController {
     }
 
     onButtonClickEvent(x, y) {
-        // console.log(ledManager.mode);
+        // console.log(config.NodeIndex, ledManager.mode, x, y);
         switch (ledManager.mode) {
             case modeEnum.FREE:
                 this.nextLed(x, y);
@@ -62,6 +62,9 @@ class LedController {
             default:
                 break;
         }
+
+        // send x, y and node index to server
+        networkMgr.sendButtonEvent(config.NodeIndex, x, y);
     }
 
     getMode() {
