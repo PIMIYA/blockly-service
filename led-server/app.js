@@ -261,11 +261,10 @@ app.get('/api/debug/buttonEvent', function (req, res) {
 });
 
 app.post('/api/debug/buttonEvent', function (req, res) {
-    let nodeIndex = req.body.nodeIndex;
-    let x = req.body.x;
-    let y = req.body.y;
-
     if (_debug) {
+        let nodeIndex = req.body.nodeIndex;
+        let x = req.body.x;
+        let y = req.body.y;
         console.log(`Button event: ${nodeIndex}::${x}::${y}`);
     }
 
