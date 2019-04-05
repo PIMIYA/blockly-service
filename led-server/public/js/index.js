@@ -20,13 +20,16 @@ $(document).ready(function () {
     /*** draw led status from refreshLed()***/
     function draw(arr) {
         let $palette = $('#ledStatus #grid');
+        let l=0;
         $palette.empty();
         arr.forEach(row => {
             row.forEach(element => {
                 //console.log('elm', element);
+                let elementIndex = l++;
+                //console.log(elementIndex);
                 let $div = $('<span>')
                     .css('background-color', element)
-                //.text(element);
+                    .addClass('c' + elementIndex);
                 $palette.append($div);
             });
             $palette.append($('<br/>'));
