@@ -105,6 +105,10 @@ class LedController {
      * Reset all led to disabled.
      */
     reset() {
+        ws281x.reset();
+        let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
+        ws281x.init(ledSize);
+
         ledManager.resetAll();
         config.BoardsIndex.forEach((bIdx) => {
             let led = ledManager.getRawLedStatus(bIdx);
