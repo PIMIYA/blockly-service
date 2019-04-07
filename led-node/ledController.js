@@ -64,7 +64,7 @@ class LedController {
         }
 
         // send x, y and node index to server
-        networkMgr.sendButtonEvent(config.NodeIndex, x, y);
+        networkMgr.sendButtonEvent(serverHost, config.NodeIndex, x, y);
     }
 
     getMode() {

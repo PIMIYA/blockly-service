@@ -60,12 +60,13 @@ class NetworkManager {
     // ========== DEBUG information ==========
     /**
      *
+     * @param {string} host Server host
      * @param {number} nodeIndex Index of node
      * @param {number} x X of board(row)
      * @param {number} y Y of board(column)
      * @param {function} cb Function(response) { }
      */
-    sendButtonEvent(nodeIndex, x, y, cb) {
+    sendButtonEvent(host, nodeIndex, x, y, cb) {
         let url = `${host}/api/debug/buttonEvent`;
         request.Post(url, {
             nodeIndex: nodeIndex,
