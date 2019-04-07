@@ -104,10 +104,14 @@ class LedController {
     /**
      * Reset all led to disabled.
      */
-    reset() {
+    reset(ignoreInit) {
+        this.stop_btn();
         ws281x.reset();
-        let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
-        ws281x.init(ledSize);
+        if (!ignoreInit) {
+            let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
+            ws281x.init(ledSize);
+            this.exec_btn();
+        }
 
         ledManager.resetAll();
         config.BoardsIndex.forEach((bIdx) => {

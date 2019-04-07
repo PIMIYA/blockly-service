@@ -25,7 +25,7 @@ if (process.platform === "win32") {
 }
 
 process.on("SIGINT", function () {
-    ledController.reset();
+    ledController.reset(true);
     console.log('Node server stopped. Node Index: ' + config.NodeIndex);
     process.exit();
 });
