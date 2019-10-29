@@ -138,7 +138,7 @@ async function ledToJimp(image, callback) {
 class LedManager {
     constructor() {
         /** @type {number} Current mode [Free, Art, Blockly] */
-        this.mode = modeEnum.FREE;
+        this.mode = modeEnum.ART;
         /** @type {number} Index of node, Null if is main server */
         this.nodeIndex = null;
         /** @type {Array<Array<string>>} Status of Led color(hex string) */
