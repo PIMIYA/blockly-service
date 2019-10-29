@@ -208,6 +208,14 @@ class Runner {
         let status = ledManager.getButtonStatus(x, y);
         let changeTo = status == 1 ? 0 : 1;
         ledManager.setButtonStatus(x, y, changeTo);
+
+        // Switch to FREE mode if in ART mode
+        let mode = ledManager.getMode();
+        if (mode == modeEnum.ART) {
+            ledManager.setMode(modeEnum.FREE);
+            this.changeMode(modeEnum.FREE);
+            this.sendResetToNode();
+        }
     }
 
     changeMode(mode, options) {
