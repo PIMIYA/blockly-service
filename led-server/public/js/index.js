@@ -136,7 +136,7 @@ $(document).ready(function () {
     /*** get mode from server ***/
     requestThings("api/mode", "get");
 
-    let status = document.getElementById("M1").value;
+    let status = document.getElementById("M2").value;
     let data = {
         "mode": parseInt(status)
     }
