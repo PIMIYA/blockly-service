@@ -1,7 +1,7 @@
 const request = require('./common/request');
 
 class NetworkManager {
-    constructor() {}
+    constructor() { }
 
     /**
      *
@@ -38,6 +38,16 @@ class NetworkManager {
             x: x,
             y: y
         }, (error, response) => {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+        });
+    }
+
+    triggerArtToFreeMode(host) {
+        let url = `${host}/api/artToFree`;
+        request.Get(url, (error, response) => {
             if (error) {
                 console.error(error.message);
                 return;

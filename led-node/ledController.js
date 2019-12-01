@@ -26,7 +26,7 @@ function ledDraw(led) {
  * 使用前一定要呼叫 init
  */
 class LedController {
-    constructor() {}
+    constructor() { }
 
     init(nodeIndex) {
         let ledSize = constValue.BoardLedWidth * constValue.BoardLedHeight;
@@ -51,7 +51,7 @@ class LedController {
                 this.nextLed(x, y);
                 break;
             case modeEnum.ART:
-                this.triggerButton(x, y);
+                this.triggerArtToFreeMode();
                 break;
             case modeEnum.BLOCKLY:
                 this.triggerButton(x, y);
@@ -156,6 +156,13 @@ class LedController {
         }
 
         networkMgr.triggerButton(serverHost, pos.Row, pos.Column);
+    }
+
+    /**
+     * Change to free mode when button triggered in art mode
+     */
+    triggerArtToFreeMode() {
+        networkMgr.triggerArtToFreeMode(serverHost);
     }
 
     //執行按扭btn.py

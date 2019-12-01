@@ -110,6 +110,16 @@ app.route('/api/mode')
         res.end();
     });
 
+app.get('/api/artToFree', function (req, res) {
+    // Switch to FREE mode if in ART mode
+    let mode = ledManager.getMode();
+    if (mode == modeEnum.ART) {
+        ledManager.setMode(modeEnum.FREE);
+        runner.changeMode(modeEnum.FREE);
+        runner.sendResetToNode();
+    }
+});
+
 app.post('/api/reload', function (req, res) {
     runner.stop();
     decache('./runner.js');

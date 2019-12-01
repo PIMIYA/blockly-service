@@ -19,6 +19,7 @@ const NODES = config.Nodes;
 
 let _intervalId = null;
 let _locked = false;
+let _changeModeLocked = false;
 let _currentTask = null;
 let _lastLedStatus = null;
 let _lastButtonStatus = null;
@@ -46,7 +47,7 @@ class Runner {
             return;
         }
 
-        if (_locked) {
+        if (_locked || _changeModeLocked) {
             return;
         }
 
@@ -60,10 +61,6 @@ class Runner {
         if (_intervalId == null) {
             self.sendResetToNode();
         }
-
-        setInterval(() => {
-            this.backToIdle();
-        }, 1200000);
     }
 
 
@@ -215,20 +212,18 @@ class Runner {
         let changeTo = status == 1 ? 0 : 1;
         ledManager.setButtonStatus(x, y, changeTo);
 
-        // Switch to FREE mode if in ART mode
-        let mode = ledManager.getMode();
-        if (mode == modeEnum.ART) {
-            ledManager.setMode(modeEnum.FREE);
-            this.changeMode(modeEnum.FREE);
-            this.sendResetToNode();
-        }
+
     }
 
     changeMode(mode, options) {
         options = options || {};
         options.sendToNode = options.sendToNode == undefined ? true : options.sendToNode;
 
-        _locked = true;
+        if (_changeModeLocked) {
+            return;
+        }
+
+        _changeModeLocked = true;
 
         ledManager.resetAll();
         if (options.sendToNode) {
@@ -239,13 +234,13 @@ class Runner {
             case modeEnum.NONE:
                 console.log('Change to None mode.');
                 _currentTask = this.runNoneMode;
-                _locked = false;
+                _changeModeLocked = false;
                 break;
 
             case modeEnum.FREE:
                 console.log('Change to Free mode.');
                 _currentTask = this.runFreeMode;
-                _locked = false;
+                _changeModeLocked = false;
                 break;
 
             case modeEnum.ART:
@@ -266,7 +261,7 @@ class Runner {
                 }).then(() => {
                     _art.index = 0;
                     _art.length = _art.data.length;
-                    _locked = false;
+                    _changeModeLocked = false;
                 });
 
                 _currentTask = this.runArtMode;
@@ -275,17 +270,18 @@ class Runner {
             case modeEnum.BLOCKLY:
                 console.log('Change to Blockly mode.');
                 _currentTask = this.runBlockyMode;
-                _locked = false;
+                _changeModeLocked = false;
                 break;
 
             case modeEnum.DEMO:
                 console.log('Change to DEMO mode.');
                 _currentTask = this.runDemoMode;
-                _locked = false;
+                _changeModeLocked = false;
                 break;
 
             default:
                 _currentTask = null;
+                _changeModeLocked = false;
                 console.error(`Set mode failed. There is no mode: ${mode}`);
                 break;
         }
