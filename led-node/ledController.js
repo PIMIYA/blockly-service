@@ -51,6 +51,7 @@ class LedController {
                 this.nextLed(x, y);
                 break;
             case modeEnum.ART:
+                this.triggerButton(x, y);
                 break;
             case modeEnum.BLOCKLY:
                 this.triggerButton(x, y);
