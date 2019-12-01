@@ -32,6 +32,7 @@ let _art = {
 let _demoTargetIndex = null;
 let _demoCurrentIndex = null;
 
+
 class Runner {
     constructor() {
         this.lastUpdateTime = Date.now();
@@ -59,7 +60,12 @@ class Runner {
         if (_intervalId == null) {
             self.sendResetToNode();
         }
+
+        setInterval(() => {
+            this.backToIdle();
+        }, 1200000);
     }
+
 
     runNoneMode(self, elapsed) {
         // console.log('None mode running...');
@@ -296,6 +302,18 @@ class Runner {
 
         _demoTargetIndex = nodeIndex;
         _demoCurrentIndex = nodeIndex === undefined ? 0 : nodeIndex;
+    }
+
+    backToIdle() {
+        let mode = ledManager.getMode();
+        if (mode == nodeEnum.ART) {
+            return;
+        }
+        if (mode == nodeEnum.FREE) {
+            ledManager.setMode(modeEnum.ART);
+            this.changeMode(modeEnum.ART);
+            this.sendResetToNode();
+        }
     }
 }
 
