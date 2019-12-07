@@ -247,8 +247,14 @@ class Runner {
                 console.log('Change to Art mode.');
 
                 let loadImages = [];
-                for (let i = 0; i < config.MAX_ART_IMAGE; i++) {
-                    let filePath = `./res/images/${config.ArtImagePrefix}${i}.jpg`;
+                
+
+                for (let i = 1; i < config.MAX_ART_IMAGE; i++) {
+                    var str = "" + i
+                    var pad = "000"
+                    var ans = pad.substring(0, pad.length - str.length) + str
+                    console.log(ans);
+                    let filePath = `./res/images/myconway2jpg/${config.ArtImagePrefix}${ans}.jpg`;
                     loadImages.push(Jimp.read(filePath));
                 }
 
