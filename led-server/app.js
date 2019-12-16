@@ -24,6 +24,7 @@ ledManager.init({
 });
 
 let runner = require('./runner');
+let worker = require('./worker');
 
 if (process.platform === "win32") {
     let rl = require("readline").createInterface({
@@ -38,6 +39,7 @@ if (process.platform === "win32") {
 
 process.on("SIGINT", function () {
     runner.stop();
+    worker.stop();
     console.log('Server stopped');
     process.exit();
 });
@@ -106,6 +108,12 @@ app.route('/api/mode')
         ledManager.setMode(mode);
         runner.changeMode(mode);
         runner.sendResetToNode();
+
+        if (mode == modeEnum.FREE) {
+            worker.startWaitingToArtMode();
+        } else {
+            worker.stopWaitingToArtMode();
+        }
 
         res.end();
     });
@@ -288,9 +296,34 @@ let server = http.createServer(app)
 // Reload code here
 reload(app);
 
-runner.changeMode(ledManager.getMode());
+let currentMode = ledManager.getMode();
+
+/* ===== Setup runner ===== */
+runner.changeMode(currentMode);
 runner.start();
 
+/* ===== Setup worker ===== */
+worker.start();
+let waitingTimeToChangeToArtMode = 1000 * 60 * 15;
+worker.setResetToArtMode(waitingTimeToChangeToArtMode, async () => {
+    let mode = modeEnum.ART;
+    ledManager.setMode(mode);
+    while (true) {
+        if (runner.changeMode(mode)) {
+            runner.sendResetToNode();
+            break;
+        }
+        await delay(500);
+    }
+    console.log('reset to art mode done.');
+});
+if (currentMode == modeEnum.FREE) {
+    worker.startWaitingToArtMode();
+} else {
+    worker.stopWaitingToArtMode();
+}
+
+/* ===== Start server listening ===== */
 server.listen(app.get('port'), function () {
     console.log('Web server listening on port ' + app.get('port'));
     constValue.dumpInfo();

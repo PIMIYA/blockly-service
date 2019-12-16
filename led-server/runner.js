@@ -220,76 +220,75 @@ class Runner {
         options.sendToNode = options.sendToNode == undefined ? true : options.sendToNode;
 
         if (_changeModeLocked) {
-            return;
+            return false;
         }
 
         _changeModeLocked = true;
+        try {
+            ledManager.resetAll();
+            if (options.sendToNode) {
+                this.sendModeToNode(mode);
+            }
 
-        ledManager.resetAll();
-        if (options.sendToNode) {
-            this.sendModeToNode(mode);
-        }
+            switch (mode) {
+                case modeEnum.NONE:
+                    console.log('Change to None mode.');
+                    _currentTask = this.runNoneMode;
+                    break;
 
-        switch (mode) {
-            case modeEnum.NONE:
-                console.log('Change to None mode.');
-                _currentTask = this.runNoneMode;
-                _changeModeLocked = false;
-                break;
+                case modeEnum.FREE:
+                    console.log('Change to Free mode.');
+                    _currentTask = this.runFreeMode;
+                    break;
 
-            case modeEnum.FREE:
-                console.log('Change to Free mode.');
-                _currentTask = this.runFreeMode;
-                _changeModeLocked = false;
-                break;
+                case modeEnum.ART:
+                    console.log('Change to Art mode.');
 
-            case modeEnum.ART:
-                console.log('Change to Art mode.');
+                    let loadImages = [];
 
-                let loadImages = [];
-                
 
-                for (let i = 1; i < config.MAX_ART_IMAGE; i++) {
-                    var str = "" + i
-                    var pad = "000"
-                    var ans = pad.substring(0, pad.length - str.length) + str
-                    console.log(ans);
-                    let filePath = `./res/images/myconway2jpg/${config.ArtImagePrefix}${ans}.jpg`;
-                    loadImages.push(Jimp.read(filePath));
-                }
+                    for (let i = 1; i < config.MAX_ART_IMAGE; i++) {
+                        var str = "" + i
+                        var pad = "000"
+                        var ans = pad.substring(0, pad.length - str.length) + str
+                        console.log(ans);
+                        let filePath = `./res/images/myconway2jpg/${config.ArtImagePrefix}${ans}.jpg`;
+                        loadImages.push(Jimp.read(filePath));
+                    }
 
-                _art.data = [];
-                Promise.all(loadImages).then((values) => {
-                    values.forEach(image => {
-                        let data = utils.jimpImageToLedStatus(image);
-                        _art.data.push(data);
+                    _art.data = [];
+                    Promise.all(loadImages).then((values) => {
+                        values.forEach(image => {
+                            let data = utils.jimpImageToLedStatus(image);
+                            _art.data.push(data);
+                        });
+                    }).then(() => {
+                        _art.index = 0;
+                        _art.length = _art.data.length;
                     });
-                }).then(() => {
-                    _art.index = 0;
-                    _art.length = _art.data.length;
-                    _changeModeLocked = false;
-                });
 
-                _currentTask = this.runArtMode;
-                break;
+                    _currentTask = this.runArtMode;
+                    break;
 
-            case modeEnum.BLOCKLY:
-                console.log('Change to Blockly mode.');
-                _currentTask = this.runBlockyMode;
-                _changeModeLocked = false;
-                break;
+                case modeEnum.BLOCKLY:
+                    console.log('Change to Blockly mode.');
+                    _currentTask = this.runBlockyMode;
+                    break;
 
-            case modeEnum.DEMO:
-                console.log('Change to DEMO mode.');
-                _currentTask = this.runDemoMode;
-                _changeModeLocked = false;
-                break;
+                case modeEnum.DEMO:
+                    console.log('Change to DEMO mode.');
+                    _currentTask = this.runDemoMode;
+                    break;
 
-            default:
-                _currentTask = null;
-                _changeModeLocked = false;
-                console.error(`Set mode failed. There is no mode: ${mode}`);
-                break;
+                default:
+                    _currentTask = null;
+                    console.error(`Set mode failed. There is no mode: ${mode}`);
+                    break;
+            }
+
+            return true;
+        } finally {
+            _changeModeLocked = false;
         }
     }
 
